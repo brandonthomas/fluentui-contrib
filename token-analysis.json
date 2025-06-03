@@ -1,0 +1,847 @@
+{
+  "packages/react-chat/src/components/Chat/useChatStyles.styles.ts": {
+    "styles": {
+      "useStyles": {}
+    },
+    "metadata": {
+      "styleConditions": {
+        "chatClassNames.root": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "styles.base": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "styles.comfy": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "state.root.className": {
+          "isBase": true,
+          "slotName": "root"
+        }
+      }
+    }
+  },
+  "packages/react-chat/src/components/ChatMessage/ChatMessage.styles.ts": {
+    "styles": {
+      "useChatMessageClasses": {},
+      "useChatMessageBodyClasses": {
+        "base": {
+          "tokens": [
+            {
+              "property": "backgroundColor",
+              "token": ["tokens.colorNeutralBackground3"],
+              "path": ["backgroundColor"]
+            }
+          ],
+          "assignedVariables": ["bodyClasses"]
+        },
+        "hasDecorationIcon": {
+          "tokens": [
+            {
+              "property": "borderLeftColor",
+              "token": ["tokens.colorPaletteRedForeground3"],
+              "path": ["borderLeftColor"]
+            }
+          ],
+          "assignedVariables": ["bodyClasses"]
+        },
+        "nameLineWrapper": {
+          "tokens": [
+            {
+              "property": "color",
+              "token": ["tokens.colorNeutralForeground3"],
+              "path": ["color"]
+            }
+          ],
+          "assignedVariables": ["bodyClasses"]
+        },
+        "decorationIcon": {
+          "tokens": [
+            {
+              "property": "backgroundColor",
+              "token": ["tokens.colorPaletteRedForeground3"],
+              "path": ["backgroundColor"]
+            }
+          ],
+          "assignedVariables": ["bodyClasses"]
+        }
+      }
+    },
+    "metadata": {
+      "styleConditions": {
+        "chatMessageClassNames.root": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "classes.container": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "state.root.className": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "classes.attachedContainer": {
+          "conditions": ["state.attached && state.attached !== 'top'"],
+          "slotName": "root"
+        },
+        "classes.avatarLessContainer": {
+          "conditions": ["!state.avatar"],
+          "slotName": "root"
+        },
+        "chatMessageClassNames.avatar": {
+          "isBase": true,
+          "slotName": "avatar"
+        },
+        "classes.avatar": {
+          "isBase": true,
+          "slotName": "avatar"
+        },
+        "state.avatar.className": {
+          "isBase": true,
+          "slotName": "avatar"
+        },
+        "chatMessageClassNames.body": {
+          "isBase": true,
+          "slotName": "body"
+        },
+        "bodyClasses.base": {
+          "isBase": true,
+          "slotName": "body"
+        },
+        "state.body.className": {
+          "isBase": true,
+          "slotName": "body"
+        },
+        "bodyClasses.hasReactions": {
+          "conditions": ["state.reactions"],
+          "slotName": "body"
+        },
+        "bodyClasses.hasDecorationIcon": {
+          "conditions": ["state.decorationIcon"],
+          "slotName": "body"
+        },
+        "bodyClasses.animation": {
+          "conditions": ["state.showAnimation"],
+          "slotName": "body"
+        },
+        "chatMessageClassNames.author": {
+          "isBase": true,
+          "slotName": "author"
+        },
+        "state.author.className": {
+          "isBase": true,
+          "slotName": "author"
+        },
+        "bodyClasses.screenReaderContainer": {
+          "conditions": [
+            "state.attached &&\n        state.attached !== 'top'",
+            "state.attached &&\n        state.attached !== 'top'"
+          ],
+          "slotName": "author"
+        },
+        "chatMessageClassNames.timestamp": {
+          "isBase": true,
+          "slotName": "timestamp"
+        },
+        "state.timestamp.className": {
+          "isBase": true,
+          "slotName": "timestamp"
+        },
+        "chatMessageClassNames.details": {
+          "isBase": true,
+          "slotName": "details"
+        },
+        "bodyClasses.details": {
+          "isBase": true,
+          "slotName": "details"
+        },
+        "state.details.className": {
+          "isBase": true,
+          "slotName": "details"
+        },
+        "chatMessageClassNames.decorationLabel": {
+          "isBase": true,
+          "slotName": "decorationLabel"
+        },
+        "bodyClasses.decorationLabel": {
+          "isBase": true,
+          "slotName": "decorationLabel"
+        },
+        "state.decorationLabel.className": {
+          "isBase": true,
+          "slotName": "decorationLabel"
+        },
+        "decorationClasses.default": {
+          "conditions": ["state.decoration"],
+          "slotName": "decorationLabel"
+        },
+        "decorationClasses.mention": {
+          "conditions": ["state.decoration === 'mention'"],
+          "slotName": "decorationLabel"
+        },
+        "chatMessageClassNames.decorationIcon": {
+          "isBase": true,
+          "slotName": "decorationIcon"
+        },
+        "bodyClasses.decorationIcon": {
+          "isBase": true,
+          "slotName": "decorationIcon"
+        },
+        "state.decorationIcon.className": {
+          "isBase": true,
+          "slotName": "decorationIcon"
+        },
+        "chatMessageClassNames.reactions": {
+          "isBase": true,
+          "slotName": "reactions"
+        },
+        "bodyClasses.reactions": {
+          "isBase": true,
+          "slotName": "reactions"
+        },
+        "state.reactions.className": {
+          "isBase": true,
+          "slotName": "reactions"
+        }
+      }
+    }
+  },
+  "packages/react-chat/src/components/ChatMyMessage/ChatMyMessage.styles.ts": {
+    "styles": {
+      "useChatMyMessageClasses": {
+        "statusIcon": {
+          "tokens": [
+            {
+              "property": "color",
+              "token": ["tokens.colorBrandForeground1"],
+              "path": ["color"]
+            }
+          ],
+          "assignedVariables": ["classes"]
+        }
+      },
+      "useChatMyMessageBodyClasses": {
+        "base": {
+          "tokens": [
+            {
+              "property": "backgroundColor",
+              "token": ["tokens.colorBrandBackground2"],
+              "path": ["backgroundColor"]
+            }
+          ],
+          "assignedVariables": ["bodyClasses"]
+        },
+        "hasDecorationIcon": {
+          "tokens": [
+            {
+              "property": "borderLeftColor",
+              "token": ["tokens.colorPaletteRedForeground3"],
+              "path": ["borderLeftColor"]
+            }
+          ],
+          "assignedVariables": ["bodyClasses"]
+        },
+        "statusMessage": {
+          "tokens": [
+            {
+              "property": "color",
+              "token": ["tokens.colorPaletteRedForeground3"],
+              "path": ["color"]
+            }
+          ],
+          "assignedVariables": ["bodyClasses"]
+        },
+        "decorationIcon": {
+          "tokens": [
+            {
+              "property": "backgroundColor",
+              "token": ["tokens.colorPaletteRedForeground3"],
+              "path": ["backgroundColor"]
+            }
+          ],
+          "assignedVariables": ["bodyClasses"]
+        },
+        "nameLineWrapper": {
+          "tokens": [
+            {
+              "property": "color",
+              "token": ["tokens.colorNeutralForeground3"],
+              "path": ["color"]
+            }
+          ],
+          "assignedVariables": ["bodyClasses"]
+        }
+      }
+    },
+    "metadata": {
+      "styleConditions": {
+        "chatMyMessageClassNames.root": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "classes.container": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "state.root.className": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "classes.attachedContainer": {
+          "conditions": ["state.attached && state.attached !== 'top'"],
+          "slotName": "root"
+        },
+        "chatMyMessageClassNames.body": {
+          "isBase": true,
+          "slotName": "body"
+        },
+        "bodyClasses.base": {
+          "isBase": true,
+          "slotName": "body"
+        },
+        "state.body.className": {
+          "isBase": true,
+          "slotName": "body"
+        },
+        "bodyClasses.hasReactions": {
+          "conditions": ["state.reactions"],
+          "slotName": "body"
+        },
+        "bodyClasses.hasDecorationIcon": {
+          "conditions": ["state.decorationIcon"],
+          "slotName": "body"
+        },
+        "bodyClasses.animation": {
+          "conditions": ["state.showAnimation"],
+          "slotName": "body"
+        },
+        "chatMyMessageClassNames.timestamp": {
+          "isBase": true,
+          "slotName": "timestamp"
+        },
+        "state.timestamp.className": {
+          "isBase": true,
+          "slotName": "timestamp"
+        },
+        "bodyClasses.screenReaderContainer": {
+          "conditions": ["state.attached &&\n        state.attached !== 'top'"],
+          "slotName": "timestamp",
+          "isBase": true
+        },
+        "chatMyMessageClassNames.details": {
+          "isBase": true,
+          "slotName": "details"
+        },
+        "bodyClasses.details": {
+          "isBase": true,
+          "slotName": "details"
+        },
+        "state.details.className": {
+          "isBase": true,
+          "slotName": "details"
+        },
+        "chatMyMessageClassNames.statusMessage": {
+          "isBase": true,
+          "slotName": "statusMessage"
+        },
+        "bodyClasses.statusMessage": {
+          "isBase": true,
+          "slotName": "statusMessage"
+        },
+        "state.statusMessage.className": {
+          "isBase": true,
+          "slotName": "statusMessage"
+        },
+        "chatMyMessageClassNames.decorationLabel": {
+          "isBase": true,
+          "slotName": "decorationLabel"
+        },
+        "bodyClasses.decorationLabel": {
+          "isBase": true,
+          "slotName": "decorationLabel"
+        },
+        "state.decorationLabel.className": {
+          "isBase": true,
+          "slotName": "decorationLabel"
+        },
+        "decorationClasses.default": {
+          "conditions": ["state.decoration"],
+          "slotName": "decorationLabel"
+        },
+        "chatMyMessageClassNames.decorationIcon": {
+          "isBase": true,
+          "slotName": "decorationIcon"
+        },
+        "bodyClasses.decorationIcon": {
+          "isBase": true,
+          "slotName": "decorationIcon"
+        },
+        "state.decorationIcon.className": {
+          "isBase": true,
+          "slotName": "decorationIcon"
+        },
+        "chatMyMessageClassNames.reactions": {
+          "isBase": true,
+          "slotName": "reactions"
+        },
+        "bodyClasses.reactions": {
+          "isBase": true,
+          "slotName": "reactions"
+        },
+        "state.reactions.className": {
+          "isBase": true,
+          "slotName": "reactions"
+        },
+        "chatMyMessageClassNames.author": {
+          "isBase": true,
+          "slotName": "author"
+        },
+        "state.author.className": {
+          "isBase": true,
+          "slotName": "author"
+        },
+        "chatMyMessageClassNames.statusIcon": {
+          "isBase": true,
+          "slotName": "statusIcon"
+        },
+        "classes.statusIcon": {
+          "isBase": true,
+          "slotName": "statusIcon"
+        },
+        "state.statusIcon.className": {
+          "isBase": true,
+          "slotName": "statusIcon"
+        },
+        "classes.statusIconFailed": {
+          "conditions": ["(state.status === 'failed' || state.status === 'blocked')"],
+          "slotName": "statusIcon"
+        },
+        "chatMyMessageClassNames.actions": {
+          "isBase": true,
+          "slotName": "actions"
+        },
+        "classes.actions": {
+          "isBase": true,
+          "slotName": "actions"
+        },
+        "state.actions.className": {
+          "isBase": true,
+          "slotName": "actions"
+        }
+      }
+    }
+  },
+  "packages/react-chat/src/components/styles/shared.styles.ts": {
+    "styles": {
+      "useDecorationClasses": {
+        "default": {
+          "tokens": [
+            {
+              "property": "color",
+              "token": ["tokens.colorPaletteRedForeground3"],
+              "path": ["color"]
+            }
+          ]
+        },
+        "mention": {
+          "tokens": [
+            {
+              "property": "color",
+              "token": ["tokens.colorPaletteDarkOrangeForeground3"],
+              "path": ["color"]
+            }
+          ]
+        },
+        "mentionContrast": {
+          "tokens": [
+            {
+              "property": "color",
+              "token": ["tokens.colorBrandForegroundLink"],
+              "path": ["color"]
+            }
+          ]
+        }
+      }
+    },
+    "metadata": {
+      "styleConditions": {}
+    }
+  },
+  "packages/react-contextual-pane/src/components/Footer/Footer.styles.ts": {
+    "styles": {
+      "useStyles": {}
+    },
+    "metadata": {
+      "styleConditions": {}
+    }
+  },
+  "packages/react-contextual-pane/src/components/Header/Header.styles.ts": {
+    "styles": {
+      "useStyles": {
+        "root": {
+          "tokens": [
+            {
+              "property": "paddingLeft",
+              "token": ["tokens.spacingVerticalXL"],
+              "path": ["paddingLeft"]
+            },
+            {
+              "property": "paddingRight",
+              "token": ["tokens.spacingVerticalM"],
+              "path": ["paddingRight"]
+            },
+            {
+              "property": "paddingTop",
+              "token": ["tokens.spacingVerticalXS"],
+              "path": ["paddingTop"]
+            },
+            {
+              "property": "paddingBottom",
+              "token": ["tokens.spacingVerticalXS"],
+              "path": ["paddingBottom"]
+            },
+            {
+              "property": "borderBottom",
+              "token": ["tokens.colorNeutralStroke2"],
+              "path": ["borderBottom"]
+            },
+            {
+              "property": "gap",
+              "token": ["tokens.spacingHorizontalXL"],
+              "path": ["gap"]
+            }
+          ]
+        },
+        "rootWithLeftContent": {
+          "tokens": [
+            {
+              "property": "paddingLeft",
+              "token": ["tokens.spacingVerticalM"],
+              "path": ["paddingLeft"]
+            }
+          ]
+        },
+        "titleContentWrapper": {
+          "tokens": [
+            {
+              "property": "gap",
+              "token": ["tokens.spacingHorizontalXS"],
+              "path": ["gap"]
+            }
+          ]
+        },
+        "title": {
+          "tokens": [
+            {
+              "property": "padding",
+              "token": ["tokens.spacingHorizontalXS"],
+              "path": ["padding"]
+            }
+          ],
+          "nested": {
+            ":focus": {
+              "tokens": [
+                {
+                  "property": "outlineColor",
+                  "token": ["tokens.colorStrokeFocus2"],
+                  "path": [":focus", "outlineColor"]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "styleConditions": {}
+    }
+  },
+  "packages/react-contextual-pane/stories/Header/styles.ts": {
+    "styles": {
+      "useStyles": {
+        "pane": {
+          "tokens": [
+            {
+              "property": "border",
+              "token": ["tokens.colorNeutralStroke2"],
+              "path": ["border"]
+            }
+          ]
+        }
+      }
+    },
+    "metadata": {
+      "styleConditions": {}
+    }
+  },
+  "packages/react-contextual-pane/stories/Mock/mocks.styles.ts": {
+    "styles": {
+      "useStyles": {}
+    },
+    "metadata": {
+      "styleConditions": {}
+    }
+  },
+  "packages/react-data-grid-react-window/src/components/DataGridHeader/useDataGridHeaderStyles.styles.ts": {
+    "styles": {
+      "useStyles": {}
+    },
+    "metadata": {
+      "styleConditions": {
+        "classes.root": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "state.root.className": {
+          "isBase": true,
+          "slotName": "root"
+        }
+      }
+    }
+  },
+  "packages/react-data-grid-react-window/src/components/DataGridRow/useDataGridRow.styles.ts": {
+    "styles": {
+      "useStyles": {}
+    },
+    "metadata": {
+      "styleConditions": {
+        "classes.root": {
+          "isBase": true,
+          "slotName": "root"
+        },
+        "state.root.className": {
+          "isBase": true,
+          "slotName": "root"
+        }
+      }
+    }
+  },
+  "packages/react-draggable-dialog/src/components/DraggableDialogHandle/DraggableDialogHandle.styles.ts": {
+    "styles": {
+      "useStyles": {}
+    },
+    "metadata": {
+      "styleConditions": {}
+    }
+  },
+  "packages/react-draggable-dialog/src/components/DraggableDialogSurface/DraggableDialogSurface.styles.ts": {
+    "styles": {
+      "useStyles": {}
+    },
+    "metadata": {
+      "styleConditions": {}
+    }
+  },
+  "packages/react-keytips/src/components/Keytip/useKeytipStyles.styles.ts": {
+    "styles": {
+      "useStyles": {
+        "root": {
+          "tokens": [
+            {
+              "property": "fontFamily",
+              "token": ["tokens.fontFamilyBase"],
+              "path": ["fontFamily"]
+            },
+            {
+              "property": "fontSize",
+              "token": ["tokens.fontSizeBase200"],
+              "path": ["fontSize"]
+            },
+            {
+              "property": "lineHeight",
+              "token": ["tokens.lineHeightBase200"],
+              "path": ["lineHeight"]
+            },
+            {
+              "property": "borderRadius",
+              "token": ["tokens.borderRadiusMedium"],
+              "path": ["borderRadius"]
+            },
+            {
+              "property": "border",
+              "token": ["tokens.strokeWidthThin"],
+              "path": ["border"]
+            },
+            {
+              "property": "border",
+              "token": ["tokens.colorTransparentStroke"],
+              "path": ["border"]
+            },
+            {
+              "property": "padding",
+              "token": ["tokens.spacingHorizontalXS"],
+              "path": ["padding"]
+            },
+            {
+              "property": "padding",
+              "token": ["tokens.strokeWidthThin"],
+              "path": ["padding"]
+            },
+            {
+              "property": "backgroundColor",
+              "token": ["tokens.colorNeutralBackgroundInverted"],
+              "path": ["backgroundColor"]
+            },
+            {
+              "property": "color",
+              "token": ["tokens.colorNeutralForegroundInverted"],
+              "path": ["color"]
+            },
+            {
+              "property": "boxShadow",
+              "token": ["tokens.shadow16"],
+              "path": ["boxShadow"]
+            }
+          ],
+          "assignedVariables": ["styles"]
+        }
+      }
+    },
+    "metadata": {
+      "styleConditions": {
+        "keytipClassNames.content": {
+          "isBase": true,
+          "slotName": "content"
+        },
+        "styles.root": {
+          "isBase": true,
+          "slotName": "content"
+        },
+        "state.content.className": {
+          "isBase": true,
+          "slotName": "content"
+        },
+        "styles.visible": {
+          "conditions": ["state.visible"],
+          "slotName": "content"
+        }
+      }
+    }
+  },
+  "packages/react-tree-grid/src/components/TreeGridRow/useTreeGridRowStyles.styles.ts": {
+    "styles": {
+      "useResetStyles": {
+        "resetStyles": {
+          "tokens": [],
+          "nested": {},
+          "isResetStyles": true
+        }
+      }
+    },
+    "metadata": {
+      "styleConditions": {
+        "'fui-TreeGridRow'": {
+          "isBase": true,
+          "slotName": ""
+        },
+        "useResetStyles()": {
+          "isBase": true,
+          "slotName": ""
+        }
+      }
+    }
+  },
+  "packages/teams-components/src/components/MenuButton/MenuButton.styles.ts": {
+    "styles": {
+      "useStyles": {
+        "root": {
+          "tokens": [
+            {
+              "property": "paddingTop",
+              "token": ["tokens.spacingHorizontalM"],
+              "path": ["paddingTop"]
+            },
+            {
+              "property": "paddingRight",
+              "token": ["tokens.spacingHorizontalM"],
+              "path": ["paddingRight"]
+            },
+            {
+              "property": "paddingBottom",
+              "token": ["tokens.spacingHorizontalM"],
+              "path": ["paddingBottom"]
+            },
+            {
+              "property": "paddingLeft",
+              "token": ["tokens.spacingHorizontalM"],
+              "path": ["paddingLeft"]
+            },
+            {
+              "property": "borderTopWidth",
+              "token": ["tokens.strokeWidthThin"],
+              "path": ["borderTopWidth"]
+            },
+            {
+              "property": "borderRightWidth",
+              "token": ["tokens.strokeWidthThin"],
+              "path": ["borderRightWidth"]
+            },
+            {
+              "property": "borderBottomWidth",
+              "token": ["tokens.strokeWidthThin"],
+              "path": ["borderBottomWidth"]
+            },
+            {
+              "property": "borderLeftWidth",
+              "token": ["tokens.strokeWidthThin"],
+              "path": ["borderLeftWidth"]
+            },
+            {
+              "property": "borderTopColor",
+              "token": ["tokens.colorNeutralStroke1"],
+              "path": ["borderTopColor"]
+            },
+            {
+              "property": "borderRightColor",
+              "token": ["tokens.colorNeutralStroke1"],
+              "path": ["borderRightColor"]
+            },
+            {
+              "property": "borderBottomColor",
+              "token": ["tokens.colorNeutralStroke1"],
+              "path": ["borderBottomColor"]
+            },
+            {
+              "property": "borderLeftColor",
+              "token": ["tokens.colorNeutralStroke1"],
+              "path": ["borderLeftColor"]
+            },
+            {
+              "property": "color",
+              "token": ["tokens.colorNeutralForeground1"],
+              "path": ["color"]
+            },
+            {
+              "property": "backgroundColor",
+              "token": ["tokens.colorNeutralBackground1"],
+              "path": ["backgroundColor"]
+            }
+          ],
+          "nested": {
+            "':hover'": {
+              "tokens": [
+                {
+                  "property": "backgroundColor",
+                  "token": ["tokens.colorNeutralBackground1Hover"],
+                  "path": ["':hover'", "backgroundColor"]
+                },
+                {
+                  "property": "color",
+                  "token": ["tokens.colorNeutralForeground1Hover"],
+                  "path": ["':hover'", "color"]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "styleConditions": {}
+    }
+  }
+}

@@ -37,6 +37,7 @@
     "@fluentui/semantic-tokens": "0.0.0-nightly-20250501-1704.1",
     "@griffel/react": "^1.5.14",
     "@griffel/shadow-dom": "~0.2.0",
+    "@modelcontextprotocol/sdk": "^1.12.1",
     "@nx/devkit": "20.8.2",
     "@nx/eslint": "20.8.2",
     "@nx/eslint-plugin": "20.8.2",
@@ -109,7 +110,8 @@
     "typescript": "5.7.3",
     "typescript-eslint": "8.32.1",
     "verdaccio": "6.1.2",
-    "yargs": "^17.7.2"
+    "yargs": "^17.7.2",
+    "zod": "^3.25.49"
   },
   "dependencies": {},
   "nx": {
