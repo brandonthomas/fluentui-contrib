@@ -26,27 +26,31 @@ const server = new McpServer(
   }
 );
 
+// Define raw Zod shape and derive parameter type for analyze_token_usage
+const analyzeTokenUsageShape = {
+  projectPath: z.string().describe('Path to the project directory to analyze'),
+  enableDebug: z
+    .boolean()
+    .optional()
+    .describe('Enable debug mode for verbose logging')
+    .default(false),
+} as const;
+// Infer parameter type from ZodRawShape
+type AnalyzeTokenUsageParams = z.infer<
+  z.ZodObject<typeof analyzeTokenUsageShape>
+>;
+
 // Tool 1: Basic token analysis
-server.tool(
+// Using 3-arg overload (name, paramsShape, callback) to limit type instantiation
+server.tool<typeof analyzeTokenUsageShape>(
   'analyze_token_usage',
-  {
-    projectPath: z
-      .string()
-      .describe('Path to the project directory to analyze'),
-    enableDebug: z
-      .boolean()
-      .optional()
-      .describe('Enable debug mode for verbose logging')
-      .default(false),
-  },
-  async ({ projectPath, enableDebug }) => {
+  analyzeTokenUsageShape,
+  async (args: AnalyzeTokenUsageParams, extra) => {
+    void extra;
+    const { projectPath, enableDebug } = args;
     try {
       // Run the token analyzer
-      const result = await runTokenAnalyzer({
-        projectPath,
-        enableDebug,
-      });
-
+      const result = await runTokenAnalyzer({ projectPath, enableDebug });
       return {
         content: [
           {
@@ -61,7 +65,7 @@ ${result.summary}
 
 ## Raw Analysis
 \`\`\`json
-${JSON.stringify(result.data, null, 2)}
+${JSON.stringify(result.data)}
 \`\`\`
 `,
           },
@@ -70,73 +74,6 @@ ${JSON.stringify(result.data, null, 2)}
     } catch (error) {
       throw new Error(
         `Analysis failed: ${
-          error instanceof Error ? error.message : String(error)
-        }`
-      );
-    }
-  }
-);
-
-// Tool 3: Simple file analysis (for testing)
-server.tool(
-  'analyze_file',
-  {
-    projectPath: z.string().describe('Path to the project directory'),
-    fileName: z.string().describe('Name of the .styles.ts file to analyze'),
-  },
-  async ({ projectPath, fileName }) => {
-    try {
-      const result = await runTokenAnalyzer({
-        projectPath,
-        enableDebug: false,
-      });
-
-      // Find the specific file in the results
-      const fileKey = Object.keys(result.data).find((key) =>
-        key.toLowerCase().includes(fileName.toLowerCase())
-      );
-
-      if (!fileKey) {
-        return {
-          content: [
-            {
-              type: 'text',
-              text: `# File Not Found
-
-**File:** ${fileName}
-**Available files:**
-${Object.keys(result.data)
-  .map((f) => `- ${f}`)
-  .join('\n')}
-`,
-            },
-          ],
-        };
-      }
-
-      const fileData = result.data[fileKey];
-      const styleFunctions = Object.keys(fileData.styles || {});
-
-      return {
-        content: [
-          {
-            type: 'text',
-            text: `# File Analysis: ${fileKey}
-
-**Style Functions:** ${styleFunctions.length}
-**Functions:** ${styleFunctions.join(', ')}
-
-## Details
-\`\`\`json
-${JSON.stringify(fileData, null, 2)}
-\`\`\`
-`,
-          },
-        ],
-      };
-    } catch (error) {
-      throw new Error(
-        `File analysis failed: ${
           error instanceof Error ? error.message : String(error)
         }`
       );

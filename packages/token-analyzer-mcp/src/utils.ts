@@ -37,8 +37,9 @@ export function getTokenAnalyzerCommand(): string {
  */
 export async function runTokenAnalyzer(options: {
   projectPath: string;
-  enableDebug?: boolean;
   outputPath?: string;
+  enableDebug?: boolean;
+  enablePerfTrace?: boolean;
 }): Promise<AnalysisResult> {
   try {
     const command = getTokenAnalyzerCommand();
@@ -50,6 +51,10 @@ export async function runTokenAnalyzer(options: {
 
     if (options.enableDebug) {
       fullCommand += ` --debug`;
+    }
+
+    if (options.enablePerfTrace) {
+      fullCommand += ` --perf`;
     }
 
     console.error(`Running: ${fullCommand}`); // Log to stderr for debugging
