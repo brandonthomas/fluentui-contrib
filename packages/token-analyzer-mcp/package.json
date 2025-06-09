@@ -8,15 +8,16 @@
   "types": "./src/index.d.ts",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
-    "zod": "^3.25.49"
+    "zod": "^3.25.49",
+    "@fluentui-contrib/token-analyzer": "file:./fluentui-contrib-token-analyzer-0.0.1.tgz"
   },
   "scripts": {
     "inspector": "npx @modelcontextprotocol/inspector ../../dist/packages/token-analyzer-mcp/lib/index.js",
     "pack": "cd ../.. && npm pack ./packages/token-analyzer-mcp",
     "install-global": "npm run pack && cd ../.. && npm install -g ./fluentui-contrib-token-analyzer-mcp-*.tgz",
     "test-global": "npm run install-global && npx @modelcontextprotocol/inspector token-analyzer-mcp",
-    "test-direct": "npm run build && node ../../dist/packages/token-analyzer-mcp/lib/index.js",
-    "dev": "npm run build && npm run inspector"
+    "test-direct": "node ../../dist/packages/token-analyzer-mcp/lib/index.js",
+    "dev": "npm run inspector"
   },
   "private": true
 }
