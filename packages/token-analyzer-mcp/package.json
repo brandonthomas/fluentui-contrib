@@ -9,7 +9,7 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.1",
     "zod": "^3.25.49",
-    "@fluentui-contrib/token-analyzer": "file:./fluentui-contrib-token-analyzer-0.0.1.tgz"
+    "@fluentui-contrib/token-analyzer": "*"
   },
   "scripts": {
     "inspector": "npx @modelcontextprotocol/inspector ../../dist/packages/token-analyzer-mcp/lib/index.js",
