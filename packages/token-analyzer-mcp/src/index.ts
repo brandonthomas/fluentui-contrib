@@ -26,27 +26,21 @@ const server = new McpServer(
   }
 );
 
-// Define raw Zod shape and derive parameter type for analyze_token_usage
-const analyzeTokenUsageShape = {
-  projectPath: z.string().describe('Path to the project directory to analyze'),
-  enableDebug: z
-    .boolean()
-    .optional()
-    .describe('Enable debug mode for verbose logging')
-    .default(false),
-} as const;
-// Infer parameter type from ZodRawShape
-type AnalyzeTokenUsageParams = z.infer<
-  z.ZodObject<typeof analyzeTokenUsageShape>
->;
-
 // Tool 1: Basic token analysis
 // Using 3-arg overload (name, paramsShape, callback) to limit type instantiation
-server.tool<typeof analyzeTokenUsageShape>(
+server.tool(
   'analyze_token_usage',
-  analyzeTokenUsageShape,
-  async (args: AnalyzeTokenUsageParams, extra) => {
-    void extra;
+  {
+    projectPath: z
+      .string()
+      .describe('Path to the project directory to analyze'),
+    enableDebug: z
+      .boolean()
+      .optional()
+      .describe('Enable debug mode for verbose logging')
+      .default(false),
+  },
+  async (args) => {
     const { projectPath, enableDebug } = args;
     try {
       // Run the token analyzer
