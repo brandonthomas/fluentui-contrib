@@ -12,12 +12,7 @@
     "@fluentui-contrib/token-analyzer": "*"
   },
   "scripts": {
-    "inspector": "npx @modelcontextprotocol/inspector ../../dist/packages/token-analyzer-mcp/lib/index.js",
-    "pack": "cd ../.. && npm pack ./packages/token-analyzer-mcp",
-    "install-global": "npm run pack && cd ../.. && npm install -g ./fluentui-contrib-token-analyzer-mcp-*.tgz",
-    "test-global": "npm run install-global && npx @modelcontextprotocol/inspector token-analyzer-mcp",
-    "test-direct": "node ../../dist/packages/token-analyzer-mcp/lib/index.js",
-    "dev": "npm run inspector"
+    "inspector": "npx @modelcontextprotocol/inspector npx tsx packages/token-analyzer-mcp/src/index.ts"
   },
   "private": true
 }

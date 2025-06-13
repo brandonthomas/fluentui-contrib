@@ -27,6 +27,13 @@
     },
     "type-check": {
       "executor": "@fluentui-contrib/nx-plugin:type-check"
+    },
+    "inspector": {
+      "executor": "@nx/workspace:run-commands",
+      "options": {
+        "command": "npm run inspector",
+        "cwd": "packages/token-analyzer-mcp"
+      }
     }
   }
 }
