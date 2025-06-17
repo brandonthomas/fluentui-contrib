@@ -17,9 +17,6 @@ const server = new McpServer(
         analyze_token_usage: {
           description: 'Analyze token usage in a project directory',
         },
-        analyze_file: {
-          description: 'Analyze a specific .styles.ts file in the project',
-        },
       },
       resources: {},
     },
@@ -27,9 +24,10 @@ const server = new McpServer(
 );
 
 // Tool 1: Basic token analysis
-// Using 3-arg overload (name, paramsShape, callback) to limit type instantiation
+// Using 4-arg overload (name, description, paramsShape, callback)
 server.tool(
   'analyze_token_usage',
+  'Analyze token usage in a project directory',
   {
     projectPath: z
       .string()
