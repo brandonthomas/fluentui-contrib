@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
+import { log } from './debugUtils.js';
 
 export function findTsConfigPath(startDir = __dirname): string | null {
   let currentDir = startDir;
@@ -14,7 +15,7 @@ export function findTsConfigPath(startDir = __dirname): string | null {
     // Check if we've hit the file system root dir and bail if we have and haven't found a tsconfig.json
     // This prevents infinite loops in case of misconfigured paths
     if (currentDir === path.dirname(currentDir)) {
-      console.warn(`Hit the root directory looking for tsconfig. Stopping search for tsconfig.json.`);
+      log(`Hit the root directory looking for tsconfig. Stopping search for tsconfig.json.`);
       return null;
     } else {
       // Move up to parent directory

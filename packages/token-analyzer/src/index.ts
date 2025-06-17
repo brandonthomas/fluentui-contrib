@@ -26,7 +26,7 @@ async function analyzeProjectStyles(
 
   try {
     const styleFiles = await measureAsync('find style files', () => findStyleFiles(rootDir));
-    console.log(`Found ${styleFiles.length} style files to analyze`);
+    log(`Found ${styleFiles.length} style files to analyze`);
 
     const project = new Project({
       // Get the nearest tsconfig.json file so we can resolve modules and paths correctly based on the project config
@@ -37,7 +37,7 @@ async function analyzeProjectStyles(
 
     for (const file of styleFiles) {
       const relativePath = relative(rootDir, file);
-      console.log(`Analyzing ${relativePath}...`);
+      log(`Analyzing ${relativePath}...`);
 
       try {
         const analysis = await analyzeFile(file, project);
@@ -63,7 +63,7 @@ async function analyzeProjectStyles(
           arrowParens: 'avoid',
         });
         await fs.writeFile(outputFile, formatted, 'utf8');
-        console.log(`Analysis written to ${outputFile}`);
+        log(`Analysis written to ${outputFile}`);
       });
     }
 
@@ -115,9 +115,13 @@ interface CliArgs {
 // CLI execution
 const isRunningDirectly =
   require.main === module || // Standard Node.js detection
-  process.argv[1].includes('token-analyzer') || // When run as global CLI
-  process.argv[1].endsWith('index.js') || // When run directly
-  process.argv[1].includes('index'); // Your original check
+  process.argv[1].endsWith('token-analyzer') || // When run as global CLI (exact match)
+  (process.argv[1].endsWith('index.js') && process.argv[1].includes('/token-analyzer/')); // When run directly from token-analyzer package
+
+// Debug logging to help troubleshoot CLI detection
+log(`CLI detection: require.main === module: ${require.main === module}`);
+log(`CLI detection: process.argv[1]: ${process.argv[1]}`);
+log(`CLI detection: isRunningDirectly: ${isRunningDirectly}`);
 
 if (isRunningDirectly) {
   const argv = yargs(hideBin(process.argv))
@@ -157,11 +161,11 @@ if (isRunningDirectly) {
 
   const { root: rootDir, output: outputFile, debug, perf } = argv;
 
-  console.log(`Starting analysis of ${rootDir}`);
-  console.log(`Output will be written to ${outputFile}`);
+  log(`Starting analysis of ${rootDir}`);
+  log(`Output will be written to ${outputFile}`);
 
-  if (debug) console.log('Debug mode enabled');
-  if (perf) console.log('Performance tracking enabled');
+  if (debug) log('Debug mode enabled');
+  if (perf) log('Performance tracking enabled');
 
   analyzeProjectStyles(rootDir, outputFile, { debug, perf })
     .then((results) => {
@@ -172,9 +176,9 @@ if (isRunningDirectly) {
         totalTokens += countTokens(fileAnalysis);
       });
 
-      console.log('\nAnalysis complete!');
-      console.log(`Processed ${totalFiles} files containing styles`);
-      console.log(`Found ${totalTokens} token references`);
+      log('\nAnalysis complete!');
+      log(`Processed ${totalFiles} files containing styles`);
+      log(`Found ${totalTokens} token references`);
     })
     .catch((err) => {
       console.error('Analysis failed:', err);
