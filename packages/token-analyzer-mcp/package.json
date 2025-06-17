@@ -12,7 +12,7 @@
     "@fluentui-contrib/token-analyzer": "*"
   },
   "scripts": {
-    "inspector": "npx @modelcontextprotocol/inspector npx tsx packages/token-analyzer-mcp/src/index.ts"
+    "inspector": "npx @modelcontextprotocol/inspector npx tsx src/index.ts"
   },
   "private": true
 }
