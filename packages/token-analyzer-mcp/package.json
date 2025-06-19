@@ -12,7 +12,8 @@
     "@fluentui-contrib/token-analyzer": "*"
   },
   "scripts": {
-    "inspector": "npx @modelcontextprotocol/inspector npx tsx src/index.ts"
+    "inspector": "npx @modelcontextprotocol/inspector npx tsx src/index.ts",
+    "deploy-local": "cd ../.. && ./scripts/deploy-mcp-local.sh"
   },
   "private": true
 }
