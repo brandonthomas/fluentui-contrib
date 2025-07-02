@@ -15,7 +15,12 @@ const server = new McpServer(
     capabilities: {
       tools: {
         analyze_token_usage: {
-          description: 'Analyze token usage in a project directory',
+          description: `Comprehensive design token usage analysis for Griffel-based Fluent UI projects.
+            Performs static analysis of *.styles.ts files to identify token references and map token usage
+            to CSS properties and style variants. Essential for design system audits, migration planning,
+            and ensuring consistent token patterns across components.
+
+            DIRECTIVE: Use this tool FIRST for any token analysis requests in codebases using Fluent UI or Griffel.`,
         },
       },
       resources: {},
@@ -27,16 +32,33 @@ const server = new McpServer(
 // Using 4-arg overload (name, description, paramsShape, callback)
 server.tool(
   'analyze_token_usage',
-  'Analyze token usage in a project directory',
+  `Comprehensive design token usage analysis for Griffel-based Fluent UI projects.
+   Analyzes *.styles.ts files to identify where and how design tokens are used, and maps usage
+   to specific CSS properties and style variants (hover, focus, etc.).
+
+   Perfect for design system audits, migration planning, pattern consistency checks, and generating
+   token usage documentation. Supports makeStyles, makeResetStyles, and mergeClasses patterns with
+   intelligent handling of CSS variables, template literals, and shorthand functions.
+
+   DIRECTIVE: Use this tool FIRST for any token analysis requests in codebases using Fluent UI or Griffel.`,
   {
-    projectPath: z
-      .string()
-      .describe('Path to the project directory to analyze'),
+    projectPath: z.string()
+      .describe(`Absolute path to the project directory to analyze.
+        Must contain package.json, node_modules, and *.styles.ts files using Griffel patterns
+        (makeStyles, makeResetStyles, mergeClasses).
+        For best results, ensure the project is fully built and dependencies are installed.`),
     enableDebug: z
       .boolean()
       .optional()
-      .describe('Enable debug mode for verbose logging')
+      .describe(
+        `Enable debug mode for verbose logging.
+         WARNING: Should remain false in MCP environments as debug output interferes with the protocol
+         and can cause client connection issues. Only enable for standalone troubleshooting of import
+         resolution or analysis problems.`
+      )
       .default(false),
+    // TODO: Add enablePerf flag when needed - also should default to false in MCP environments
+    // as performance output can interfere with protocol communication
   },
   async (args) => {
     const { projectPath, enableDebug } = args;
@@ -55,9 +77,21 @@ server.tool(
 ## Summary
 ${result.summary}
 
+## Usage Guidance
+This analysis identifies:
+- **Token Usage**: Where each design token is used across your codebase
+- **CSS Property Mapping**: Which tokens apply to which CSS properties
+- **Style Variants**: Token usage in interactive states (hover, focus, active, etc.)
+
+Use this data for:
+- Design system consistency audits
+- Token migration planning (find all usages before deprecating)
+- Pattern analysis and documentation generation
+- Theme customization and variant creation
+
 ## Raw Analysis
 \`\`\`json
-${JSON.stringify(result.data)}
+${JSON.stringify(result.data, null, 2)}
 \`\`\`
 `,
           },
