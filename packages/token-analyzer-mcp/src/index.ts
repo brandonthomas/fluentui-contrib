@@ -3,7 +3,14 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import { z } from 'zod';
+import { readFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import { runTokenAnalyzer } from './utils';
+
+// Get the directory of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 // Create MCP server with basic info
 const server = new McpServer(
@@ -100,6 +107,38 @@ ${JSON.stringify(result.data, null, 2)}
     } catch (error) {
       throw new Error(
         `Analysis failed: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
+    }
+  }
+);
+
+// Resource: Token structure documentation
+server.resource(
+  'Token Structure Documentation',
+  'tokens-structure://docs/tokens.md',
+  {
+    description: 'Component categories and token structure documentation',
+    mimeType: 'text/markdown',
+  },
+  async () => {
+    try {
+      const tokensPath = join(__dirname, 'tokens.md');
+      const content = readFileSync(tokensPath, 'utf-8');
+
+      return {
+        contents: [
+          {
+            uri: 'tokens-structure://docs/tokens.md',
+            mimeType: 'text/markdown',
+            text: content,
+          },
+        ],
+      };
+    } catch (error) {
+      throw new Error(
+        `Failed to read tokens documentation: ${
           error instanceof Error ? error.message : String(error)
         }`
       );
