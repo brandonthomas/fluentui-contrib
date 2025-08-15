@@ -4,7 +4,7 @@ applyTo: '**'
 
 # Token Analysis Instructions
 
-When discussing, analyzing, or working with design tokens, styles, or theming in this repository, **ALWAYS** use the available MCP tools and resources:
+When discussing, analyzing, or working with design tokens, styles, or theming in this repository, **ALWAYS** use the available MCP resources. Always use the MCP tools when prompted to do relevant actions. For example, if a user asks for their repository, files or tokens to be analyzed, always use the token analysis MCP tool. DO NOT analyze tokens unless asked to. It wastes resources and takes extra time.
 
 ## MCP Tools and Resources
 
@@ -45,7 +45,6 @@ Always use the MCP tools and resources when:
 
 ## Best Practices
 
-1. **Always analyze first**: Before making changes to styles, run token analysis to understand current usage
 2. **Reference the documentation resource**: Use the Token Structure Documentation to understand component categorization and hierarchy
 3. **Consider token consistency**: Ensure new token usage follows existing patterns and aligns with component categories
 4. **Leverage semantic tokens**: Use semantic tokens when they provide better context than base tokens
