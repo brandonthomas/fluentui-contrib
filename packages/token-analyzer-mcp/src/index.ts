@@ -10,7 +10,7 @@ import { runTokenAnalyzer } from './utils';
 
 // Get the directory of the current module
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const newDirName = dirname(__filename);
 
 // Create MCP server with basic info
 const server = new McpServer(
@@ -124,7 +124,7 @@ server.resource(
   },
   async () => {
     try {
-      const tokensPath = join(__dirname, 'tokens.md');
+      const tokensPath = join(newDirName, 'tokens.md');
       const content = readFileSync(tokensPath, 'utf-8');
 
       return {
