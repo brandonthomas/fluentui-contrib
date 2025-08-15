@@ -129,7 +129,10 @@ server.resource(
   },
   async () => {
     try {
-      const tokensPath = join(newDirName, 'tokens.md');
+      const tokensPath = join(
+        newDirName,
+        'docs/tokens/tokenComponentCategories.md'
+      );
       const content = readFileSync(tokensPath, 'utf-8');
 
       return {

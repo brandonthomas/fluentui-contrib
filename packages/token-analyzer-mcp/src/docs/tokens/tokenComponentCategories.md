@@ -4,27 +4,10 @@ This page covers the middle layer that Jack mentions in the Proposal for MS Univ
 
 ## Table of Contents
 
-- Current set
 - Proposed set
 - General
 - ctrlGroups
 - Component levels
-
----
-
-### Current set
-
-|     | ctrlGroup | Definition                                                                           |
-| --- | --------- | ------------------------------------------------------------------------------------ |
-| 1   | ctrl      | Default category for components                                                      |
-| 2   | page      | The base layer of the experience                                                     |
-| 3   | layer     | Content layers of sections that add structure to the page                            |
-| 4   | card      | A container that holds information and actions related to a single concept or object |
-| 5   | image     | An image that displays graphical content such as a photo or illustration             |
-| 6   | toolbar   | A container grouping a set of controls, such as buttons, menu buttons, or checkboxes |
-| 7   | flyout    | Modal component values such as tooltip                                               |
-| 8   | badge     | Components that signify a status update, presence, etc.                              |
-| 9   | window    | Windows specific values                                                              |
 
 ---
 
