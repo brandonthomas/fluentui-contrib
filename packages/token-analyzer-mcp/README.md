@@ -78,6 +78,23 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
+### Local MCP configuration using deploy script
+
+You'll need to update the file path based on whichever version of node you have installed (in this case with NVM). Additionally, you can utilize the script in package.json (directly or through NX console) called `deploy-local`. This will build, uninstall, and global install an updated version of the MCP server. It's handy because it's just as if you were using an installed version.
+
+```json
+{
+  "servers": {
+    "test-token-mcp": {
+      "type": "stdio",
+      "command": "wsl",
+      "args": ["/root/.nvm/versions/node/v22.14.0/bin/node", "/root/.nvm/versions/node/v22.14.0/lib/node_modules/@fluentui-contrib/token-analyzer-mcp/lib-commonjs/index.js"]
+    }
+  },
+  "inputs": []
+}
+```
+
 ### Environment Variables
 
 ```bash
@@ -102,61 +119,11 @@ Analyze token usage in a project
 }
 ```
 
-### `compare_with_fluent_patterns`
-
-Compare project patterns with Fluent UI best practices
-
-```json
-{
-  "projectPath": "./my-project",
-  "componentType": "button",
-  "includeRecommendations": true
-}
-```
-
-### `get_token_recommendations`
-
-Get AI-powered token recommendations
-
-```json
-{
-  "useCase": "button hover state",
-  "componentType": "button",
-  "state": "hover"
-}
-```
-
-### `analyze_file_tokens`
-
-Detailed analysis of a specific style file
-
-```json
-{
-  "projectPath": "./my-project",
-  "fileName": "useButtonStyles.styles.ts"
-}
-```
-
-### `find_token_patterns`
-
-Find usage patterns for specific tokens
-
-```json
-{
-  "projectPath": "./my-project",
-  "tokenName": "colorBrandBackground"
-}
-```
-
 ## 📚 Resources
 
-### `fluent_reference`
+### `Token Structure Documentation`
 
-Access Fluent UI reference patterns and guidelines
-
-### `token_guidelines`
-
-Griffel token usage best practices and guidelines
+Alpha set of semantic token documentation around token categories. Note, this is mostly for testing for now as we figure out what does or doesn't need to be documented.
 
 ## 🔍 Example AI Conversations
 

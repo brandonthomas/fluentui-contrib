@@ -30,7 +30,12 @@ const server = new McpServer(
             DIRECTIVE: Use this tool FIRST for any token analysis requests in codebases using Fluent UI or Griffel.`,
         },
       },
-      resources: {},
+      resources: {
+        'tokens-structure://docs/tokens.md': {
+          description: 'Component categories and token structure documentation',
+          mimeType: 'text/markdown',
+        },
+      },
     },
   }
 );
