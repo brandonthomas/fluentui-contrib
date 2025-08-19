@@ -61,3 +61,11 @@ We also wanted to separate out these into different levels, from atomic, to prod
 | 3   | **Level 3** | Complex UI components made up of groups of molecules and atoms. They form distinct sections of an interface with specific purposes and can contain multiple types of content.  | card, toolbar, overlay             |
 | 4   | **Level 4** | Complete, reusable interface patterns that solve common user problems. These combine multiple organisms and represent standard ways of organizing content and functionality.   | window, list, navigation           |
 | 5   | **Level 5** | Complete user workflows and experiences that combine multiple patterns to deliver end-to-end functionality. These represent full application features or user journeys.        | page                               |
+
+---
+
+## Related resources
+
+- Token Guidance: tokens-structure://docs/token-guidance.md
+- Token Group Map: tokens-structure://docs/token-group-map.md
+- Button Token Group: tokens-structure://docs/button/token-group-button.md

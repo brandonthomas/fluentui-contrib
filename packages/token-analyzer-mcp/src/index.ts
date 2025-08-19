@@ -35,6 +35,26 @@ const server = new McpServer(
           description: 'Component categories and token structure documentation',
           mimeType: 'text/markdown',
         },
+        'tokens-structure://docs/token-guidance.md': {
+          description:
+            'Practical guidance for using design tokens across components, with best practices, naming, and hierarchy tips. See also: tokens-structure://docs/tokens.md and tokens-structure://docs/token-group-map.md',
+          mimeType: 'text/markdown',
+        },
+        'tokens-structure://docs/token-group-map.md': {
+          description:
+            'Map of semantic token groups to components and states; helps agents resolve which tokens to apply where. See also: tokens-structure://docs/tokens.md',
+          mimeType: 'text/markdown',
+        },
+        'tokens-structure://docs/colors/token-primitive-colors.md': {
+          description:
+            'Primitive color token catalog and relationships to semantic tokens; useful for theming and dark mode. See also: tokens-structure://docs/token-guidance.md',
+          mimeType: 'text/markdown',
+        },
+        'tokens-structure://docs/button/token-group-button.md': {
+          description:
+            'Button-specific token group definitions, including states (hover/focus/active) and variants; aligns with the global token group map.',
+          mimeType: 'text/markdown',
+        },
       },
     },
   }
@@ -147,6 +167,140 @@ server.resource(
     } catch (error) {
       throw new Error(
         `Failed to read tokens documentation: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
+    }
+  }
+);
+
+// Resource: Token guidance documentation
+server.resource(
+  'Token Guidance',
+  'tokens-structure://docs/token-guidance.md',
+  {
+    description:
+      'Practical guidance for using design tokens across components, with best practices, naming, and hierarchy tips.',
+    mimeType: 'text/markdown',
+  },
+  async () => {
+    try {
+      const docPath = join(newDirName, 'docs/tokens/tokenGuidance.md');
+      const content = readFileSync(docPath, 'utf-8');
+      return {
+        contents: [
+          {
+            uri: 'tokens-structure://docs/token-guidance.md',
+            mimeType: 'text/markdown',
+            text: content,
+          },
+        ],
+      };
+    } catch (error) {
+      throw new Error(
+        `Failed to read token guidance documentation: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
+    }
+  }
+);
+
+// Resource: Token group map documentation
+server.resource(
+  'Token Group Map',
+  'tokens-structure://docs/token-group-map.md',
+  {
+    description:
+      'Map of semantic token groups to components and states; helps agents resolve which tokens to apply where.',
+    mimeType: 'text/markdown',
+  },
+  async () => {
+    try {
+      const docPath = join(newDirName, 'docs/tokens/tokenGroupMap.md');
+      const content = readFileSync(docPath, 'utf-8');
+      return {
+        contents: [
+          {
+            uri: 'tokens-structure://docs/token-group-map.md',
+            mimeType: 'text/markdown',
+            text: content,
+          },
+        ],
+      };
+    } catch (error) {
+      throw new Error(
+        `Failed to read token group map documentation: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
+    }
+  }
+);
+
+// Resource: Primitive color tokens documentation
+server.resource(
+  'Primitive Color Tokens',
+  'tokens-structure://docs/colors/token-primitive-colors.md',
+  {
+    description:
+      'Primitive color token catalog and relationships to semantic tokens; useful for theming and dark mode.',
+    mimeType: 'text/markdown',
+  },
+  async () => {
+    try {
+      const docPath = join(
+        newDirName,
+        'docs/tokens/colors/tokenPrimitiveColors.md'
+      );
+      const content = readFileSync(docPath, 'utf-8');
+      return {
+        contents: [
+          {
+            uri: 'tokens-structure://docs/colors/token-primitive-colors.md',
+            mimeType: 'text/markdown',
+            text: content,
+          },
+        ],
+      };
+    } catch (error) {
+      throw new Error(
+        `Failed to read primitive color tokens documentation: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
+    }
+  }
+);
+
+// Resource: Button token group documentation
+server.resource(
+  'Button Token Group',
+  'tokens-structure://docs/button/token-group-button.md',
+  {
+    description:
+      'Button-specific token group definitions, including states (hover/focus/active) and variants; aligns with the global token group map.',
+    mimeType: 'text/markdown',
+  },
+  async () => {
+    try {
+      const docPath = join(
+        newDirName,
+        'docs/tokens/button/tokenGroupButton.md'
+      );
+      const content = readFileSync(docPath, 'utf-8');
+      return {
+        contents: [
+          {
+            uri: 'tokens-structure://docs/button/token-group-button.md',
+            mimeType: 'text/markdown',
+            text: content,
+          },
+        ],
+      };
+    } catch (error) {
+      throw new Error(
+        `Failed to read button token group documentation: ${
           error instanceof Error ? error.message : String(error)
         }`
       );
