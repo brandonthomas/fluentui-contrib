@@ -1,6 +1,6 @@
 Below is a set of rules and instructions for how we want to create our design token library.
 
-For component category context, see [Component Categories](tokens-structure://docs/tokens.md). For a map of how groups apply to components, see the [Token Group Map](tokens-structure://docs/token-group-map.md). Primitive color definitions are in [Primitive Colors](tokens-structure://docs/colors/token-primitive-colors.md).
+For component category context, see [Component Categories](tokens-structure://docs/tokenComponentCategories.md). For a map of how groups apply to components, see the [Token Group Map](tokens-structure://docs/token-group-map.md). Primitive color definitions are in [Primitive Colors](tokens-structure://docs/colors/token-primitive-colors.md).
 
 # System logic
 
@@ -270,7 +270,7 @@ Full-strength, highly saturated color with maximum contrast. Typically paired wi
 
 ## Related resources
 
-- Component Categories: tokens-structure://docs/tokens.md
+- Component Categories: tokens-structure://docs/tokenComponentCategories.md
 - Token Group Map: tokens-structure://docs/token-group-map.md
 - Primitive Colors: tokens-structure://docs/colors/token-primitive-colors.md
 

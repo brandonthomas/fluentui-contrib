@@ -31,18 +31,18 @@ const server = new McpServer(
         },
       },
       resources: {
-        'tokens-structure://docs/tokens.md': {
+        'tokens-structure://docs/tokenComponentCategories.md': {
           description: 'Component categories and token structure documentation',
           mimeType: 'text/markdown',
         },
         'tokens-structure://docs/token-guidance.md': {
           description:
-            'Practical guidance for using design tokens across components, with best practices, naming, and hierarchy tips. See also: tokens-structure://docs/tokens.md and tokens-structure://docs/token-group-map.md',
+            'Practical guidance for using design tokens across components, with best practices, naming, and hierarchy tips. See also: tokens-structure://docs/tokenComponentCategories.md and tokens-structure://docs/token-group-map.md',
           mimeType: 'text/markdown',
         },
         'tokens-structure://docs/token-group-map.md': {
           description:
-            'Map of semantic token groups to components and states; helps agents resolve which tokens to apply where. See also: tokens-structure://docs/tokens.md',
+            'Map of semantic token groups to components and states; helps agents resolve which tokens to apply where. See also: tokens-structure://docs/tokenComponentCategories.md',
           mimeType: 'text/markdown',
         },
         'tokens-structure://docs/colors/token-primitive-colors.md': {
@@ -142,7 +142,7 @@ ${JSON.stringify(result.data, null, 2)}
 // Resource: Token structure documentation
 server.resource(
   'Token Structure Documentation',
-  'tokens-structure://docs/tokens.md',
+  'tokens-structure://docs/tokenComponentCategories.md',
   {
     description: 'Component categories and token structure documentation',
     mimeType: 'text/markdown',
@@ -158,7 +158,7 @@ server.resource(
       return {
         contents: [
           {
-            uri: 'tokens-structure://docs/tokens.md',
+            uri: 'tokens-structure://docs/tokenComponentCategories.md',
             mimeType: 'text/markdown',
             text: content,
           },

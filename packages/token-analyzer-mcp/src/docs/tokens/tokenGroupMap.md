@@ -376,5 +376,5 @@ This mapping provides the foundation for systematic token application across all
 ## Related resources
 
 - Token Guidance: tokens-structure://docs/token-guidance.md
-- Component Categories: tokens-structure://docs/tokens.md
+- Component Categories: tokens-structure://docs/tokenComponentCategories.md
 - Button Token Group: tokens-structure://docs/button/token-group-button.md

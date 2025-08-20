@@ -5,15 +5,9 @@
 description: 'My eval'
 
 prompts:
-  - 'Write a tweet about {{topic}}'
+  - 'List the available MCP servers and resources you have available to you'
 
 providers:
-  - id: azure:chat:gpt-5-mini
-    config:
-      reasoning:
-        effort: 'medium'
-      max_completion_tokens: 25000
-      isReasoningModel: true
   - id: azure:chat:gpt-5-mini
     config:
       reasoning:
@@ -40,27 +34,8 @@ defaultTest:
 
 tests:
   - vars:
-      topic: bananas
+      resource: Token Structure Documentation
 
-  - vars:
-      topic: avocado toast
     assert:
-      # For more information on assertions, see https://promptfoo.dev/docs/configuration/expected-outputs
-
-      # Make sure output contains the word "avocado"
-      - type: icontains
-        value: avocado
-
-      # Prefer shorter outputs
       - type: llm-rubric
-        value: 1 / (output.length + 1)
-
-  - vars:
-      topic: new york city
-    assert:
-      # For more information on model-graded evals, see https://promptfoo.dev/docs/configuration/expected-outputs/model-graded
-      - type: llm-rubric
-        value: ensure that the output is funny
-
-  - vars:
-      topic: meat
+        value: Ensure the output shows this MCP resource is about the structure of tokens within the Fluent UI design system. It should not include errors or queries about how to get MCP resources. If it does, this should fail.

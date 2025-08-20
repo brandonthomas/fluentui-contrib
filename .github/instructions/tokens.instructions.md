@@ -19,7 +19,7 @@ When discussing, analyzing, or working with design tokens, styles, or theming in
 
 ### Token Structure Documentation Resource
 
-- **`Token Structure Documentation`**: A comprehensive MCP resource (`tokens-structure://docs/tokens.md`) that provides:
+- **`Token Structure Documentation`**: A comprehensive MCP resource (`tokens-structure://docs/tokenComponentCategories.md`) that provides:
   - **Component categorization framework**: Detailed taxonomy of component categories (ctrl, card, overlay, toolbar, choice, button, list, input, navigation, statusIndicator, media, text, etc.)
   - **Component hierarchy levels**: 5-level classification system from atomic elements (Level 1) to complete user workflows (Level 5)
   - **Token grouping strategy**: Framework for organizing tokens based on component behavioral attributes
