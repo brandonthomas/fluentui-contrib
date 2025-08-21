@@ -313,76 +313,17 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
 
-  // Minimal cleanup without debug output for production safety
-  let exiting = false;
-  const cleanExit = (code = 0) => {
-    if (exiting) return;
-    exiting = true;
-    process.exit(code);
-  };
-
-  // Monitor stdin readability - most reliable indicator of client disconnect
-  const stdinMonitor = global.setInterval(() => {
-    if (!process.stdin.readable) {
-      global.clearInterval(stdinMonitor);
-      cleanExit(0);
-    }
-  }, 1000);
-
-  // Essential event handlers
-  process.stdin.on('end', () => {
-    global.clearInterval(stdinMonitor);
-    cleanExit(0);
+  // Standard cleanup on exit - simplified from complex monitoring
+  process.on('SIGINT', async () => {
+    await server.close();
+    process.exit(0);
   });
 
-  process.stdin.on('close', () => {
-    global.clearInterval(stdinMonitor);
-    cleanExit(0);
+  process.on('SIGTERM', async () => {
+    await server.close();
+    process.exit(0);
   });
-
-  // Handle EPIPE gracefully (when reader closes)
-  process.stdout.on('error', (err: NodeJS.ErrnoException) => {
-    if (err && err.code === 'EPIPE') {
-      global.clearInterval(stdinMonitor);
-      cleanExit(0);
-    }
-  });
-
-  // Termination signals
-  process.on('SIGINT', () => {
-    global.clearInterval(stdinMonitor);
-    cleanExit(0);
-  });
-  process.on('SIGTERM', () => {
-    global.clearInterval(stdinMonitor);
-    cleanExit(0);
-  });
-
-  // Safety timeout (shorter for responsiveness)
-  const safetyTimeout = global.setTimeout(() => {
-    global.clearInterval(stdinMonitor);
-    process.exit(1);
-  }, 3000);
-
-  // Clear timeout on any exit
-  const originalExit = process.exit;
-  process.exit = ((code?: number) => {
-    global.clearTimeout(safetyTimeout);
-    global.clearInterval(stdinMonitor);
-    originalExit(code);
-  }) as typeof process.exit;
 }
-
-// Clean error handling
-process.on('uncaughtException', (error) => {
-  console.error('Uncaught Exception:', error.message);
-  process.exit(1);
-});
-
-process.on('unhandledRejection', (reason) => {
-  console.error('Unhandled Rejection:', reason);
-  process.exit(1);
-});
 
 // Start the server
 main().catch((error) => {
