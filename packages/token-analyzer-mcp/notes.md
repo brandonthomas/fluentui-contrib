@@ -20,4 +20,4 @@ Process insights:
 - Performance has been good with individual resources. I think this is particularly interesting since we package the resources with the MCP server so retriver is near instant.
 - Since we package resources with the MCP server, we should probably include a prompt with our MCP server to check for updates.
 - Write clear concise resource descriptions as this is what helps the agent/model decide what resources to load and use. Good ones will ensure we don't load more into context than we need.
--
+- promptfoo viewer seems really helpful.
