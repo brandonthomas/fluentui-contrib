@@ -7,6 +7,7 @@ import {
   writeJsonFile,
   output,
 } from '@nx/devkit';
+import { CopyAssetsHandler } from '@nx/js/src/utils/assets/copy-assets-handler';
 
 import { BuildExecutorSchema } from './schema';
 import { PackagePaths, getPackagePaths } from '../../utils';
@@ -39,6 +40,18 @@ export default async function runExecutor(
 
   copyPackageJson(paths);
   copyReadme(paths);
+
+  // Copy assets if provided
+  if (options.assets && options.assets.length > 0) {
+    const assetHandler = new CopyAssetsHandler({
+      projectDir: projectConfig.root,
+      rootDir: context.root,
+      outputDir: paths.dist,
+      assets: options.assets,
+    });
+
+    await assetHandler.processAllAssetsOnce();
+  }
 
   return {
     success: true,

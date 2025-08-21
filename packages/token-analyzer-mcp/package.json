@@ -7,9 +7,11 @@
   },
   "types": "./src/index.d.ts",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.12.1",
+    "@modelcontextprotocol/sdk": "^1.17.3",
     "zod": "^3.25.49",
-    "@fluentui-contrib/token-analyzer": "*"
+    "@fluentui-contrib/token-analyzer": "*",
+    "jsonc-eslint-parser": "2.4.0",
+    "@swc/helpers": "~0.5.11"
   },
   "scripts": {
     "inspector": "npx @modelcontextprotocol/inspector npx tsx src/index.ts",

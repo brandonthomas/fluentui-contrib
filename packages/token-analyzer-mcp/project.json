@@ -6,7 +6,21 @@
   "tags": [],
   "targets": {
     "build": {
-      "executor": "@fluentui-contrib/nx-plugin:build"
+      "executor": "@fluentui-contrib/nx-plugin:build",
+      "options": {
+        "assets": [
+          {
+            "input": "packages/token-analyzer-mcp/src/docs",
+            "glob": "**/*.md",
+            "output": "lib/docs"
+          },
+          {
+            "input": "packages/token-analyzer-mcp/src/docs",
+            "glob": "**/*.md",
+            "output": "lib-commonjs/docs"
+          }
+        ]
+      }
     },
     "lint": {
       "executor": "@nx/eslint:lint",
