@@ -29,3 +29,4 @@ Process insights:
 - evals are the health of the design system.
 - evals will allow us to measure the impact of designers/UXE/UXR on the design system. We've never had that in design in such measurable ways before. Imagine a designer makes a change and we see the impact of that change immediately in our evals before we even have to commit changes? This gives us more signaling about what we're doing and can be seen in near real time. This is why building out a comprehensive suite of evals and working with partners to update them is so critical.
 - We've seen more editorial content but FLuent isn't really setup to be the central resource for that but it does need to be centralized somewhere. We should have a perspective. Should Fluent take this? If so, how would we resource this?
+- Another important aspect of our work here will be assessing when or if the right tool or resource is called. When comparing models this will be critical.
