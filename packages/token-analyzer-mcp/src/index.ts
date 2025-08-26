@@ -12,6 +12,61 @@ import { runTokenAnalyzer } from './utils';
 const __filename = fileURLToPath(import.meta.url);
 const newDirName = dirname(__filename);
 
+// Resource registry - single source of truth for all resources
+const RESOURCE_REGISTRY = {
+  'tokens-structure://docs/tokenComponentCategories.md': {
+    name: 'Token Structure Documentation',
+    description: 'Component categories and token structure documentation',
+    mimeType: 'text/markdown',
+    filePath: 'docs/tokens/tokenComponentCategories.md',
+  },
+  'tokens-structure://docs/token-guidance.md': {
+    name: 'Token Guidance',
+    description:
+      'Practical guidance for using design tokens across components, with best practices, naming, and hierarchy tips. See also: tokens-structure://docs/tokenComponentCategories.md and tokens-structure://docs/token-group-map.md',
+    mimeType: 'text/markdown',
+    filePath: 'docs/tokens/tokenGuidance.md',
+  },
+  'tokens-structure://docs/token-group-map.md': {
+    name: 'Token Group Map',
+    description:
+      'Map of semantic token groups to components and states; helps agents resolve which tokens to apply where. See also: tokens-structure://docs/tokenComponentCategories.md',
+    mimeType: 'text/markdown',
+    filePath: 'docs/tokens/tokenGroupMap.md',
+  },
+  'tokens-structure://docs/colors/token-primitive-colors.md': {
+    name: 'Primitive Color Tokens',
+    description:
+      'Primitive color token catalog and relationships to semantic tokens; useful for theming and dark mode. See also: tokens-structure://docs/token-guidance.md',
+    mimeType: 'text/markdown',
+    filePath: 'docs/tokens/colors/tokenPrimitiveColors.md',
+  },
+  'tokens-structure://docs/button/token-group-button.md': {
+    name: 'Button Token Group',
+    description:
+      'Button-specific token group definitions, including states (hover/focus/active) and variants; aligns with the global token group map.',
+    mimeType: 'text/markdown',
+    filePath: 'docs/tokens/button/tokenGroupButton.md',
+  },
+} as const;
+
+// Helper function to generate capabilities from registry
+function generateResourceCapabilities() {
+  const capabilities: Record<
+    string,
+    { description: string; mimeType: string }
+  > = {};
+
+  for (const [uri, resource] of Object.entries(RESOURCE_REGISTRY)) {
+    capabilities[uri] = {
+      description: resource.description,
+      mimeType: resource.mimeType,
+    };
+  }
+
+  return capabilities;
+}
+
 // Create MCP server with basic info
 const server = new McpServer(
   {
@@ -29,34 +84,56 @@ const server = new McpServer(
 
             DIRECTIVE: Use this tool FIRST for any token analysis requests in codebases using Fluent UI or Griffel.`,
         },
-      },
-      resources: {
-        'tokens-structure://docs/tokenComponentCategories.md': {
-          description: 'Component categories and token structure documentation',
-          mimeType: 'text/markdown',
-        },
-        'tokens-structure://docs/token-guidance.md': {
-          description:
-            'Practical guidance for using design tokens across components, with best practices, naming, and hierarchy tips. See also: tokens-structure://docs/tokenComponentCategories.md and tokens-structure://docs/token-group-map.md',
-          mimeType: 'text/markdown',
-        },
-        'tokens-structure://docs/token-group-map.md': {
-          description:
-            'Map of semantic token groups to components and states; helps agents resolve which tokens to apply where. See also: tokens-structure://docs/tokenComponentCategories.md',
-          mimeType: 'text/markdown',
-        },
-        'tokens-structure://docs/colors/token-primitive-colors.md': {
-          description:
-            'Primitive color token catalog and relationships to semantic tokens; useful for theming and dark mode. See also: tokens-structure://docs/token-guidance.md',
-          mimeType: 'text/markdown',
-        },
-        'tokens-structure://docs/button/token-group-button.md': {
-          description:
-            'Button-specific token group definitions, including states (hover/focus/active) and variants; aligns with the global token group map.',
-          mimeType: 'text/markdown',
+        list_resources: {
+          description: `List all available documentation resources in this MCP server.
+            Returns metadata for all token documentation resources including URIs, names, descriptions, and MIME types.
+            Use this when MCP clients don't automatically discover or list available resources.`,
         },
       },
+      resources: generateResourceCapabilities(),
     },
+  }
+);
+
+// Tool: List all available resources
+server.tool(
+  'list_resources',
+  "List all available documentation resources in this MCP server. Returns metadata for all token documentation resources including URIs, names, descriptions, and MIME types. Use this when MCP clients don't automatically discover or list available resources.",
+  {}, // No parameters needed
+  async () => {
+    const resources = Object.entries(RESOURCE_REGISTRY).map(
+      ([uri, resource]) => ({
+        uri,
+        name: resource.name,
+        description: resource.description,
+        mimeType: resource.mimeType,
+      })
+    );
+
+    return {
+      content: [
+        {
+          type: 'text',
+          text: `# Available Documentation Resources
+
+This MCP server provides ${resources.length} token documentation resources:
+
+${resources
+  .map(
+    (resource) => `## ${resource.name}
+- **URI**: \`${resource.uri}\`
+- **Description**: ${resource.description}
+- **MIME Type**: ${resource.mimeType}
+`
+  )
+  .join('\n')}
+
+## Usage
+Use the resource URIs above to access specific documentation through your MCP client's resource capabilities.
+`,
+        },
+      ],
+    };
   }
 );
 
@@ -139,174 +216,38 @@ ${JSON.stringify(result.data, null, 2)}
   }
 );
 
-// Resource: Token structure documentation
-server.resource(
-  'Token Structure Documentation',
-  'tokens-structure://docs/tokenComponentCategories.md',
-  {
-    description: 'Component categories and token structure documentation',
-    mimeType: 'text/markdown',
-  },
-  async () => {
-    try {
-      const tokensPath = join(
-        newDirName,
-        'docs/tokens/tokenComponentCategories.md'
-      );
-      const content = readFileSync(tokensPath, 'utf-8');
-
-      return {
-        contents: [
-          {
-            uri: 'tokens-structure://docs/tokenComponentCategories.md',
-            mimeType: 'text/markdown',
-            text: content,
-          },
-        ],
-      };
-    } catch (error) {
-      throw new Error(
-        `Failed to read tokens documentation: ${
-          error instanceof Error ? error.message : String(error)
-        }`
-      );
+// Register all resources from registry
+for (const [uri, resource] of Object.entries(RESOURCE_REGISTRY)) {
+  server.resource(
+    resource.name,
+    uri,
+    {
+      description: resource.description,
+      mimeType: resource.mimeType,
+    },
+    async () => {
+      try {
+        const docPath = join(newDirName, resource.filePath);
+        const content = readFileSync(docPath, 'utf-8');
+        return {
+          contents: [
+            {
+              uri,
+              mimeType: resource.mimeType,
+              text: content,
+            },
+          ],
+        };
+      } catch (error) {
+        throw new Error(
+          `Failed to read ${resource.name}: ${
+            error instanceof Error ? error.message : String(error)
+          }`
+        );
+      }
     }
-  }
-);
-
-// Resource: Token guidance documentation
-server.resource(
-  'Token Guidance',
-  'tokens-structure://docs/token-guidance.md',
-  {
-    description:
-      'Practical guidance for using design tokens across components, with best practices, naming, and hierarchy tips.',
-    mimeType: 'text/markdown',
-  },
-  async () => {
-    try {
-      const docPath = join(newDirName, 'docs/tokens/tokenGuidance.md');
-      const content = readFileSync(docPath, 'utf-8');
-      return {
-        contents: [
-          {
-            uri: 'tokens-structure://docs/token-guidance.md',
-            mimeType: 'text/markdown',
-            text: content,
-          },
-        ],
-      };
-    } catch (error) {
-      throw new Error(
-        `Failed to read token guidance documentation: ${
-          error instanceof Error ? error.message : String(error)
-        }`
-      );
-    }
-  }
-);
-
-// Resource: Token group map documentation
-server.resource(
-  'Token Group Map',
-  'tokens-structure://docs/token-group-map.md',
-  {
-    description:
-      'Map of semantic token groups to components and states; helps agents resolve which tokens to apply where.',
-    mimeType: 'text/markdown',
-  },
-  async () => {
-    try {
-      const docPath = join(newDirName, 'docs/tokens/tokenGroupMap.md');
-      const content = readFileSync(docPath, 'utf-8');
-      return {
-        contents: [
-          {
-            uri: 'tokens-structure://docs/token-group-map.md',
-            mimeType: 'text/markdown',
-            text: content,
-          },
-        ],
-      };
-    } catch (error) {
-      throw new Error(
-        `Failed to read token group map documentation: ${
-          error instanceof Error ? error.message : String(error)
-        }`
-      );
-    }
-  }
-);
-
-// Resource: Primitive color tokens documentation
-server.resource(
-  'Primitive Color Tokens',
-  'tokens-structure://docs/colors/token-primitive-colors.md',
-  {
-    description:
-      'Primitive color token catalog and relationships to semantic tokens; useful for theming and dark mode.',
-    mimeType: 'text/markdown',
-  },
-  async () => {
-    try {
-      const docPath = join(
-        newDirName,
-        'docs/tokens/colors/tokenPrimitiveColors.md'
-      );
-      const content = readFileSync(docPath, 'utf-8');
-      return {
-        contents: [
-          {
-            uri: 'tokens-structure://docs/colors/token-primitive-colors.md',
-            mimeType: 'text/markdown',
-            text: content,
-          },
-        ],
-      };
-    } catch (error) {
-      throw new Error(
-        `Failed to read primitive color tokens documentation: ${
-          error instanceof Error ? error.message : String(error)
-        }`
-      );
-    }
-  }
-);
-
-// Resource: Button token group documentation
-server.resource(
-  'Button Token Group',
-  'tokens-structure://docs/button/token-group-button.md',
-  {
-    description:
-      'Button-specific token group definitions, including states (hover/focus/active) and variants; aligns with the global token group map.',
-    mimeType: 'text/markdown',
-  },
-  async () => {
-    try {
-      const docPath = join(
-        newDirName,
-        'docs/tokens/button/tokenGroupButton.md'
-      );
-      const content = readFileSync(docPath, 'utf-8');
-      return {
-        contents: [
-          {
-            uri: 'tokens-structure://docs/button/token-group-button.md',
-            mimeType: 'text/markdown',
-            text: content,
-          },
-        ],
-      };
-    } catch (error) {
-      throw new Error(
-        `Failed to read button token group documentation: ${
-          error instanceof Error ? error.message : String(error)
-        }`
-      );
-    }
-  }
-);
+  );
+}
 
 // Start the server
 async function main() {
