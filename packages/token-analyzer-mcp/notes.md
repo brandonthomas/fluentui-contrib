@@ -24,3 +24,8 @@ Process insights:
 - we should look at assertions/evals like we do with test code. There's this adage that you find a bug and write a test. We should do the same but for system gaps, insights, etc. If you see something that defines or breaks our systems it needs to be turned into an eval. If you work with a partner who has an unanswered question, eval.
 - Not all MCP clients respect all aspects of the MCP standard. Since this is the case, we have to expose the resources through tools even though clients should be able to list and access resources directly.
 - We should also eval against things we don't want it to do.
+- We should write evaluations that encapsulate the principles of the system. IE: We don't want surperfluous sizes strew throughout the system. We should only have a coherent set of sizes. Additionally, how do we break up names, do we follow nomenclature.
+- How do we encapsulate where pieces of our design system sit within it and not even just within tokens. How do we decide how things fit here vs just are tacked on.
+- evals are the health of the design system.
+- evals will allow us to measure the impact of designers/UXE/UXR on the design system. We've never had that in design in such measurable ways before. Imagine a designer makes a change and we see the impact of that change immediately in our evals before we even have to commit changes? This gives us more signaling about what we're doing and can be seen in near real time. This is why building out a comprehensive suite of evals and working with partners to update them is so critical.
+  
