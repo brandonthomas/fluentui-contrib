@@ -21,3 +21,6 @@ Process insights:
 - Since we package resources with the MCP server, we should probably include a prompt with our MCP server to check for updates.
 - Write clear concise resource descriptions as this is what helps the agent/model decide what resources to load and use. Good ones will ensure we don't load more into context than we need.
 - promptfoo viewer seems really helpful.
+- we should look at assertions/evals like we do with test code. There's this adage that you find a bug and write a test. We should do the same but for system gaps, insights, etc. If you see something that defines or breaks our systems it needs to be turned into an eval. If you work with a partner who has an unanswered question, eval.
+- Not all MCP clients respect all aspects of the MCP standard. Since this is the case, we have to expose the resources through tools even though clients should be able to list and access resources directly.
+- We should also eval against things we don't want it to do.
