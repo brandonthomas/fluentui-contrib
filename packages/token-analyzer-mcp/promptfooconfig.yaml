@@ -5,7 +5,7 @@
 description: 'My eval'
 
 prompts:
-  - 'List the available MCP servers and resources you have available to you'
+  - '{{prompt}}'
 
 providers:
   - id: azure:chat:gpt-5-mini
@@ -16,11 +16,27 @@ providers:
       isReasoningModel: true
       mcp:
         enabled: true
-        servers:
-          - command: npx
-            args:
-              - '@fluentui-contrib/token-analyzer-mcp'
-            name: test-token-mcp
+        server:
+          command: npx
+          args:
+            - '@fluentui-contrib/token-analyzer-mcp'
+          name: test-token-mcp
+
+  # - id: azure:assistant:asst_99j2ummOUsjhamnart7qhYWI
+  #   config:
+  #     apiKey: 46f80f1b9562443b9c62a6ed35e6a0bf
+  #     apiHost: https://design-tooling.openai.azure.com/
+  #     reasoning:
+  #       effort: 'medium'
+  #     max_completion_tokens: 25000
+  #     isReasoningModel: true
+  #     mcp:
+  #       enabled: true
+  #       server:
+  #         command: npx
+  #         args:
+  #           - '@fluentui-contrib/token-analyzer-mcp'
+  #         name: test-token-mcp
 
 defaultTest:
   options:
@@ -34,8 +50,45 @@ defaultTest:
 
 tests:
   - vars:
-      resource: Token Structure Documentation
-
+      prompt: What tools are available to you?
     assert:
       - type: llm-rubric
-        value: Ensure the output shows this MCP resource is about the structure of tokens within the Fluent UI design system. It should not include errors or queries about how to get MCP resources. If it does, this should fail.
+        value: List of available tools should include list_resources.
+
+  - vars:
+      prompt: What documentation is available for token documentation?
+    options:
+      storeOutputAs: tokenToolCall
+    assert:
+      - type: llm-rubric
+        value: Initial tool response should include the function call `list_resources`. Since there are no arguments for this function, args should be empty.
+
+  - vars:
+      prompt: 'Use the tool list_resources and summarize the output'
+    assert:
+      - type: javascript
+        value: |
+          console.log(output);
+
+  - description: 'Token interaction with tooling'
+    provider:
+      id: 'promptfoo:simulated-user'
+      config:
+        maxTurns: 10
+    vars:
+      scenario: 'product_return_request'
+      instructions: |
+        You're a user who wants to know about various parts of the token system
+        1. Ask about available token resources
+        2. Ask for a summary of the resources and which might be best to use if building a button component.
+        3. If you can't run the tool try '{{tokenToolCall | dump}}'
+    assert:
+      # Overall conversation quality
+      - type: llm-rubric
+        value: |
+          Evaluate the complete conversation on:
+          - Problem resolution effectiveness (0-10)
+          - Tool usage appropriateness (0-10)
+          - Context maintenance across turns (0-10)
+          - Customer satisfaction outcome (0-10)
+        weight: 3
