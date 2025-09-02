@@ -72,3 +72,7 @@ If we include conversations or decision making process into our documentation, d
 ### Organizational Questions
 
 - We've seen more editorial content but FLuent isn't really setup to be the central resource for that but it does need to be centralized somewhere. We should have a perspective. Should Fluent take this? If so, how would we resource this?
+
+- Create eval for component and then ask the AI to create tokens for that component. Does it create ones that fit the group or that work?
+- Are the groups easy to understand?
+- What is the purpose of a [insert group] group?

@@ -89,6 +89,11 @@ const server = new McpServer(
             Returns metadata for all token documentation resources including URIs, names, descriptions, and MIME types.
             Use this when MCP clients don't automatically discover or list available resources.`,
         },
+        get_resource_data: {
+          description: `Get the actual content data from one or more token documentation resources.
+            Use this to retrieve the full text content of documentation resources for analysis and reference.
+            Supports fetching multiple resources in a single call for efficiency.`,
+        },
       },
       resources: generateResourceCapabilities(),
     },
@@ -98,7 +103,7 @@ const server = new McpServer(
 // Tool: List all available resources
 server.tool(
   'list_resources',
-  "List all available documentation resources in this MCP server. Returns metadata for all token documentation resources including URIs, names, descriptions, and MIME types. Use this when MCP clients don't automatically discover or list available resources.",
+  "List all available Fluent UI documentation resources in this MCP server. Returns metadata for all token documentation resources including URIs, names, descriptions, and MIME types. Use this when MCP clients don't automatically discover or list available resources.",
   {}, // No parameters needed
   async () => {
     const resources = Object.entries(RESOURCE_REGISTRY).map(
@@ -130,10 +135,116 @@ ${resources
 
 ## Usage
 Use the resource URIs above to access specific documentation through your MCP client's resource capabilities.
+Or use the get_resource_data tool with these URIs to fetch the actual content data.
 `,
         },
       ],
     };
+  }
+);
+
+// Tool: Get resource data by URI(s)
+server.tool(
+  'get_resource_data',
+  `Get the actual content data from one or more token documentation resources.
+   Use this to retrieve the full text content of documentation resources for analysis and reference.
+   Supports fetching multiple resources in a single call for efficiency.
+
+   This tool works around MCP resource limitations in some hosts by directly reading the documentation files.`,
+  {
+    uris: z.array(z.string())
+      .describe(`Array of resource URIs to fetch data from. Use the URIs from the list_resources tool.
+        Example URIs:
+        - tokens-structure://docs/tokenComponentCategories.md
+        - tokens-structure://docs/token-guidance.md
+        - tokens-structure://docs/token-group-map.md
+        - tokens-structure://docs/colors/token-primitive-colors.md
+        - tokens-structure://docs/button/token-group-button.md`),
+  },
+  async (args) => {
+    const { uris } = args;
+
+    try {
+      const results = [];
+
+      for (const uri of uris) {
+        const resource = RESOURCE_REGISTRY[uri as keyof typeof RESOURCE_REGISTRY];
+
+        if (!resource) {
+          results.push({
+            uri,
+            success: false,
+            error: `Resource not found. Available URIs: ${Object.keys(RESOURCE_REGISTRY).join(', ')}`,
+          });
+          continue;
+        }
+
+        try {
+          const docPath = join(newDirName, resource.filePath);
+          const content = readFileSync(docPath, 'utf-8');
+
+          results.push({
+            uri,
+            success: true,
+            name: resource.name,
+            description: resource.description,
+            mimeType: resource.mimeType,
+            content,
+          });
+        } catch (error) {
+          results.push({
+            uri,
+            success: false,
+            error: `Failed to read file: ${error instanceof Error ? error.message : String(error)}`,
+          });
+        }
+      }
+
+      const successCount = results.filter(r => r.success).length;
+      const failureCount = results.filter(r => !r.success).length;
+
+      return {
+        content: [
+          {
+            type: 'text',
+            text: `# Resource Data Results
+
+**Requested:** ${uris.length} resource(s)
+**Success:** ${successCount}
+**Failed:** ${failureCount}
+
+${results.map((result, index) => {
+  if (result.success) {
+    return `## ${index + 1}. ${result.name}
+
+**URI:** \`${result.uri}\`
+**Description:** ${result.description}
+**MIME Type:** ${result.mimeType}
+
+### Content:
+${result.content}
+
+---
+`;
+  } else {
+    return `## ${index + 1}. Failed: ${result.uri}
+
+**Error:** ${result.error}
+
+---
+`;
+  }
+}).join('\n')}`,
+          },
+        ],
+      };
+    } catch (error) {
+      throw new Error(
+        `Failed to fetch resource data: ${
+          error instanceof Error ? error.message : String(error)
+        }`
+      );
+    }
   }
 );
 
