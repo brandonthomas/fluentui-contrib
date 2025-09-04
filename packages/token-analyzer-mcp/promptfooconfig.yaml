@@ -22,22 +22,6 @@ providers:
             - '@fluentui-contrib/token-analyzer-mcp'
           name: test-token-mcp
 
-  # - id: azure:assistant:asst_99j2ummOUsjhamnart7qhYWI
-  #   config:
-  #     apiKey: 46f80f1b9562443b9c62a6ed35e6a0bf
-  #     apiHost: https://design-tooling.openai.azure.com/
-  #     reasoning:
-  #       effort: 'medium'
-  #     max_completion_tokens: 25000
-  #     isReasoningModel: true
-  #     mcp:
-  #       enabled: true
-  #       server:
-  #         command: npx
-  #         args:
-  #           - '@fluentui-contrib/token-analyzer-mcp'
-  #         name: test-token-mcp
-
 defaultTest:
   options:
     provider:
@@ -53,35 +37,32 @@ tests:
       prompt: What tools are available to you?
     assert:
       - type: llm-rubric
-        value: List of available tools should include list_resources.
+        value: List of available tools should include list_resources and get_resource_data.
 
   - vars:
       prompt: What documentation is available for token documentation?
-    options:
-      storeOutputAs: tokenToolCall
     assert:
       - type: llm-rubric
-        value: Initial tool response should include the function call `list_resources`. Since there are no arguments for this function, args should be empty.
+        value: Should include information about Fluent tokens, groups, colors, the button token group and overall guidance.
 
   - vars:
-      prompt: 'Use the tool list_resources and summarize the output'
+      prompt: What can you tell me about Fluent component token groups? Summarize.
     assert:
-      - type: javascript
-        value: |
-          console.log(output);
+      - type: llm-rubric
+        value: Should include information about token groups, their purpose, and how they relate to Fluent components. It shouldn't just be a list of available documents
 
-  - description: 'Token interaction with tooling'
+  - description: 'Token name breakdown'
     provider:
       id: 'promptfoo:simulated-user'
       config:
         maxTurns: 10
     vars:
-      scenario: 'product_return_request'
+      scenario: 'token_name_breadkdown'
       instructions: |
-        You're a user who wants to know about various parts of the token system
-        1. Ask about available token resources
-        2. Ask for a summary of the resources and which might be best to use if building a button component.
-        3. If you can't run the tool try '{{tokenToolCall | dump}}'
+        You're a user who wants to know about how the Fluent token `group.toolbar.status.error.loud.rest` breaks down. We know we have access to the token MCP and want to use that for our information.
+        1. Get the list of token documentation resources and then pull the relevant documents using the MCP. You can pull all documents in a single request. Don't move on until the documentation is presented or loaded in context.
+        2. Ask about each segment of the token name and the description of them to build understanding of the token.
+        3. Ask where a token like this might be used and which component.
     assert:
       # Overall conversation quality
       - type: llm-rubric
