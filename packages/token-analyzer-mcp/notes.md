@@ -75,4 +75,14 @@ If we include conversations or decision making process into our documentation, d
 
 - Create eval for component and then ask the AI to create tokens for that component. Does it create ones that fit the group or that work?
 - Are the groups easy to understand?
+
+# more notes to be organized
+
 - What is the purpose of a [insert group] group?
+- Think about categorizing the types of work we need to do for the report.
+- separating design knowledge from implementation will allow us to test in isolation, similar to unit tests vs only have an e2e test. It also means if we have a separate base we can potentially leverage other implementation like tailwind (If we can do this with the existing prod implementation that's great we should call that out.)
+- Insight: we need to be able to iterate, test, verify quality, etc within the design space. We don't want to have to push to prod before we have an idea of what our changes are doing or if they are good. It could look like a lightweight MCP, agent, promptfoo. Or maybe not.
+
+- How can we scale this out and what could we run in parallel when it comes to other areas like layout, content, components we can eval and write about.
+- We should paly around with model temp. We could have promps run on temp of 0.0, 0.5, 1.0.
+- Having an automated check on our documentation and our system for value or consistency.
