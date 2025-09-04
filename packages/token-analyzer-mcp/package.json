@@ -11,7 +11,8 @@
     "zod": "^3.25.49",
     "@fluentui-contrib/token-analyzer": "*",
     "jsonc-eslint-parser": "2.4.0",
-    "@swc/helpers": "~0.5.11"
+    "@swc/helpers": "~0.5.11",
+    "promptfoo": "file:./promptfoo-0.118.1_fix.tgz"
   },
   "scripts": {
     "inspector": "npx @modelcontextprotocol/inspector npx tsx src/index.ts",
