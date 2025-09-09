@@ -86,3 +86,19 @@ If we include conversations or decision making process into our documentation, d
 - How can we scale this out and what could we run in parallel when it comes to other areas like layout, content, components we can eval and write about.
 - We should paly around with model temp. We could have promps run on temp of 0.0, 0.5, 1.0.
 - Having an automated check on our documentation and our system for value or consistency.
+- Another task that we'll have to think about and do is setting the threshold for pass/fail. Ex: I required that the tool list various parts of our documentation and specified that it be around Fluent. However, some of the descriptions were lacking that part so it failed with a score of 0.8. I think this is probably a valid failure but it's close. We will need to figure out these thresholds and how tight we want things to be.
+- While we have enough of a system to do much of this work right now, it's not optimized for non-technical people as much as it could be. We should consider a parallel tooling track to help get folks a process that works easily and quickly out of the box to speed up the process. In the interim, we could leverage UXE to help where needed. ex: if you add a new MCP resource or file, you need to update the MCP server, build it, and reinstall it locally. Ideally, we just have a place we can dump files and it works. This is change we can make but also isn't a hard blocker.
+- If we want to test full flows, we can do so with simulated user evaluations. These are more complex and take more time to run but they are great because it lets us test an entire line of questioning, tool resolution, and answer quality in a single test. Think of it like an e2e test. We shouldn't only have e2e or unit tests but a combination for the best QA.
+
+# Potential process flow as we are working on expanding or updating parts of the system (could be during or after some design is created)
+
+- Writing documentation and splitting it into logical pieces.
+- Tying documentation to other documentation that is relevant (we can probably have AI help here)
+- Writing/generating descriptions of documentation
+- Testing/iterating on documentation based on the responses from AI
+- Writing/generating/discovering prompts/questions/tasks our documentation or system needs to answer.
+- Turn those prompts/questions/tasks into evals and putting them into our test suites
+- Tweaking prompts, sequences, eval thresholds, grading types, etc to ensure coverage and accuracy
+- Push docs and evals into production systems/knowledge bases once we get to a quality and output we require.
+- Running the simulated-user provider is quite cool but very expensive performance wise. We can instead leverage the `storeOutputAs` feature within promptfoo if we want to store previous output
+- Flow could be something like prompt which document to pull, then prompt for that document and store the output as a variable, then prompt for the result in another round trip we might want.

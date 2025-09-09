@@ -20,6 +20,13 @@ const RESOURCE_REGISTRY = {
     mimeType: 'text/markdown',
     filePath: 'docs/tokens/tokenComponentCategories.md',
   },
+  'tokens-structure://docs/token-rules.md': {
+    name: 'Token System Rules and Architecture',
+    description:
+      'This document defines a comprehensive design token architecture with four hierarchical levels: primitive tokens (foundational values for all design properties), generic tokens (curated UI concepts that bridge primitives to components), group tokens (shared styling for component families), and control tokens (specific overrides for unique cases). It establishes naming conventions, atomic component categorization (from text/media elements to complex containers), and a resolution chain ensuring all group tokens connect through generics to primitives for consistent theming and scalability.',
+    mimeType: 'text/markdown',
+    filePath: 'docs/tokens/tokenRules_0908.md',
+  },
   'tokens-structure://docs/token-guidance.md': {
     name: 'Token Guidance',
     description:
@@ -119,9 +126,11 @@ server.tool(
       content: [
         {
           type: 'text',
-          text: `# Available Documentation Resources
+          text: `# Available Fluent Documentation Resources
 
-This MCP server provides ${resources.length} token documentation resources:
+This MCP server provides ${
+            resources.length
+          } of Fluent token documentation resources:
 
 ${resources
   .map(
@@ -168,13 +177,16 @@ server.tool(
       const results = [];
 
       for (const uri of uris) {
-        const resource = RESOURCE_REGISTRY[uri as keyof typeof RESOURCE_REGISTRY];
+        const resource =
+          RESOURCE_REGISTRY[uri as keyof typeof RESOURCE_REGISTRY];
 
         if (!resource) {
           results.push({
             uri,
             success: false,
-            error: `Resource not found. Available URIs: ${Object.keys(RESOURCE_REGISTRY).join(', ')}`,
+            error: `Resource not found. Available URIs: ${Object.keys(
+              RESOURCE_REGISTRY
+            ).join(', ')}`,
           });
           continue;
         }
@@ -195,13 +207,15 @@ server.tool(
           results.push({
             uri,
             success: false,
-            error: `Failed to read file: ${error instanceof Error ? error.message : String(error)}`,
+            error: `Failed to read file: ${
+              error instanceof Error ? error.message : String(error)
+            }`,
           });
         }
       }
 
-      const successCount = results.filter(r => r.success).length;
-      const failureCount = results.filter(r => !r.success).length;
+      const successCount = results.filter((r) => r.success).length;
+      const failureCount = results.filter((r) => !r.success).length;
 
       return {
         content: [
@@ -213,9 +227,10 @@ server.tool(
 **Success:** ${successCount}
 **Failed:** ${failureCount}
 
-${results.map((result, index) => {
-  if (result.success) {
-    return `## ${index + 1}. ${result.name}
+${results
+  .map((result, index) => {
+    if (result.success) {
+      return `## ${index + 1}. ${result.name}
 
 **URI:** \`${result.uri}\`
 **Description:** ${result.description}
@@ -226,15 +241,16 @@ ${result.content}
 
 ---
 `;
-  } else {
-    return `## ${index + 1}. Failed: ${result.uri}
+    } else {
+      return `## ${index + 1}. Failed: ${result.uri}
 
 **Error:** ${result.error}
 
 ---
 `;
-  }
-}).join('\n')}`,
+    }
+  })
+  .join('\n')}`,
           },
         ],
       };
