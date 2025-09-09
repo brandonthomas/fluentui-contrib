@@ -21,6 +21,19 @@ providers:
           args:
             - '@fluentui-contrib/token-analyzer-mcp'
           name: test-token-mcp
+  - id: azure:chat:o4-mini
+    config:
+      reasoning:
+        effort: 'medium'
+      max_completion_tokens: 25000
+      isReasoningModel: true
+      mcp:
+        enabled: true
+        server:
+          command: npx
+          args:
+            - '@fluentui-contrib/token-analyzer-mcp'
+          name: test-token-mcp
 
 defaultTest:
   options:
@@ -46,15 +59,7 @@ tests:
         value: Should include information about Fluent tokens, groups, colors, the button token group and overall guidance.
 
   - vars:
-      prompt: What can you tell me about Fluent component token groups? Summarize.
-    options:
-      storeOutputAs: tokenToolCall
-    assert:
-      - type: llm-rubric
-        value: Should include information about token groups, their purpose, and how they relate to Fluent components. It shouldn't just be a list of available documents
-
-  - vars:
-      prompt: get tokens-structure://docs/token-guidance.md
+      prompt: get tokens-structure://docs/token-rules.md
     options:
       storeOutputAs: tokenGuidanceDocument
     assert:
@@ -68,29 +73,25 @@ tests:
         value: Should provide a summary of the token guidance document, including key points about token structure. It should not simply return just the document.
 
   - vars:
-      prompt: 'Breakdown the token `group.toolbar.status.error.loud.rest` using the following document: {{tokenGuidanceDocument}}'
+      prompt: 'Using the token guidance document, completely break down the token `group.button.brand.backgroundColor.hover` into all of its individual parts. Explain what each part means and identify any parts that are missing from this token according to the naming schema. Use this document to help you: {{tokenGuidanceDocument}}'
     assert:
-      - type: llm-rubric
-
-  - description: 'Token name breakdown'
-    provider:
-      id: 'promptfoo:simulated-user'
-      config:
-        maxTurns: 10
-    vars:
-      scenario: 'token_name_breadkdown'
-      instructions: |
-        You're a user who wants to know about how the Fluent token `group.toolbar.status.error.loud.rest` breaks down. We know we have access to the token MCP and want to use that for our information.
-        1. Get the list of token documentation resources and then pull the relevant documents using the MCP. You can pull all documents in a single request. Don't move on until the documentation is presented or loaded in context.
-        2. Ask about each segment of the token name and the description of them to build understanding of the token.
-        3. Ask where a token like this might be used and which component.
-    assert:
-      # Overall conversation quality
       - type: llm-rubric
         value: |
-          Evaluate the complete conversation on:
-          - Problem resolution effectiveness (0-10)
-          - Tool usage appropriateness (0-10)
-          - Context maintenance across turns (0-10)
-          - Customer satisfaction outcome (0-10)
-        weight: 3
+          The response must correctly identify and explain ALL parts of the token `group.button.brand.backgroundColor.hover`:
+          1. Must identify "group" as the [ctrl/group] segment and explain it targets multiple components in the button group
+          2. Must identify "button" as the [component] segment and explain it's a primary interactive control component group
+          3. Must identify "brand" as the [variant] segment and explain it's a color variant that expresses brand identity and personality
+          4. Must identify "backgroundColor" as the [property] segment and explain it's the CSS property being styled
+          5. Must identify "hover" as the [state] segment and explain it's the interactive state when a pointer hovers over the element
+          6. Must explicitly state which segments are omitted in this token: [subComponent], [element], and [elementVariant]
+          7. Must not skip or combine any of these components in the explanation
+          8. Must explain that this is a complete, valid token that follows the documented naming schema
+          9. Should explain how this token would resolve through the hierarchy: group token → generic token (background.brand.hover) → primitive token (brand.loud.hover) → actual value
+
+#  create an eval to check the resolution steps, check on rules like group tokens must connect to generic and never primitives.
+# create eval to test fallback order and rules
+# Create eval to test bad tokens (similar to above)
+# Create eval to create new tokens and eval it based on the rules.
+# Create summary criteria when we prompt for the token doc summary. Something like includes 4 tiers of hierarchy, group tokens must always point to generics and never primitives, etc.
+# Create invalid token examples to eval as well.
+# When asking it to create a new token for an icon button with a chevron icon it was confused and thought they were separate elements (when asking Claude). We should eval this so we don't have a subComponent + element in that case. It should just be element I think.

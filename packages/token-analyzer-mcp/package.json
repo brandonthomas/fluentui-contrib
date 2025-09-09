@@ -18,7 +18,9 @@
     "inspector": "npx @modelcontextprotocol/inspector npx tsx src/index.ts",
     "deploy-local": "cd ../.. && ./scripts/deploy-mcp-local.sh",
     "eval": "npx promptfoo eval",
-    "view": "npx promptfoo view"
+    "view": "npx promptfoo view",
+    "clear": "npx promptfoo cache clear",
+    "clean-eval": "npx promptfoo cache clear && npx promptfoo eval"
   },
   "private": true
 }

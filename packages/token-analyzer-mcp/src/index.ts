@@ -25,7 +25,7 @@ const RESOURCE_REGISTRY = {
     description:
       'This document defines a comprehensive design token architecture with four hierarchical levels: primitive tokens (foundational values for all design properties), generic tokens (curated UI concepts that bridge primitives to components), group tokens (shared styling for component families), and control tokens (specific overrides for unique cases). It establishes naming conventions, atomic component categorization (from text/media elements to complex containers), and a resolution chain ensuring all group tokens connect through generics to primitives for consistent theming and scalability.',
     mimeType: 'text/markdown',
-    filePath: 'docs/tokens/tokenRules_0908.md',
+    filePath: 'docs/tokens/token-rules.md',
   },
   'tokens-structure://docs/token-guidance.md': {
     name: 'Token Guidance',
