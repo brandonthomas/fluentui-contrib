@@ -93,7 +93,7 @@
     "parsel-js": "^1.1.2",
     "patch-package": "^7.0.0",
     "prettier": "^2.6.2",
-    "promptfoo": "file:./packages/token-analyzer-mcp/promptfoo-0.118.1_fix.tgz",
+    "promptfoo": "file:./packages/token-analyzer-mcp/promptfoo-0.118.3.tgz",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-frame-component": "^5.2.6",

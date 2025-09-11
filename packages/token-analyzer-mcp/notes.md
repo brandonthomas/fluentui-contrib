@@ -103,3 +103,4 @@ If we include conversations or decision making process into our documentation, d
 - Running the simulated-user provider is quite cool but very expensive performance wise. We can instead leverage the `storeOutputAs` feature within promptfoo if we want to store previous output
 - Flow could be something like prompt which document to pull, then prompt for that document and store the output as a variable, then prompt for the result in another round trip we might want.
 - We have to think about prompts kind of like user study questions in some ways. We shouldn't lead the model to the right answer in our prompts.
+- We should write our evals along side the rest of our work as a systems team. Not at the end or off as a low priority. We should consider it a source of truth or a spec.
