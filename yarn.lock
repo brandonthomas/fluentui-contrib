@@ -20,10 +20,10 @@
     "@jridgewell/gen-mapping" "^0.3.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@anthropic-ai/sdk@^0.61.0":
-  version "0.61.0"
-  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.61.0.tgz#d977c569a0181cecacc2ea09615fb13f4304b530"
-  integrity sha512-GnlOXrPxow0uoaVB3DGNh9EJBU1MyagCBCLpU+bwDVlj/oOPYIwoiasMWlykkfYcQOrDP2x/zHnRD0xN7PeZPw==
+"@anthropic-ai/sdk@^0.62.0":
+  version "0.62.0"
+  resolved "https://registry.yarnpkg.com/@anthropic-ai/sdk/-/sdk-0.62.0.tgz#c624086ce46101fe0bffe24893a1d00e6fea0972"
+  integrity sha512-gT2VFKX0gSp7KJNlav/vzRFjJOPYDZxCJRx7MYUc+fqURc5aS6OI/UJeD2KytJkjsIWv0OOwH1ePc1S5QE2GZw==
 
 "@apidevtools/json-schema-ref-parser@^12.0.2":
   version "12.0.2"
@@ -15658,11 +15658,12 @@ progress@^2.0.1:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-"promptfoo@file:./packages/token-analyzer-mcp/promptfoo-0.118.3.tgz":
-  version "0.118.3"
-  resolved "file:./packages/token-analyzer-mcp/promptfoo-0.118.3.tgz#a26c36677af47a4a5293afac6adb96e5d89b8215"
+promptfoo@^0.118.4:
+  version "0.118.4"
+  resolved "https://registry.yarnpkg.com/promptfoo/-/promptfoo-0.118.4.tgz#b2807b00c1691dbf585437b64ec906c3a633a842"
+  integrity sha512-AcYr2FwkWLNlcBzvbZ65TLkJ3UmNNBt9h+ncaqVCgMHVKNzyEk7bgU3LIgO4+unkuVEoBnz6Aaeolj4tXm/rxg==
   dependencies:
-    "@anthropic-ai/sdk" "^0.61.0"
+    "@anthropic-ai/sdk" "^0.62.0"
     "@apidevtools/json-schema-ref-parser" "^12.0.2"
     "@googleapis/sheets" "^9.8.0"
     "@inquirer/checkbox" "^4.2.2"
