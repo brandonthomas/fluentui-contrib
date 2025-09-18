@@ -3566,25 +3566,7 @@
   resolved "https://registry.yarnpkg.com/@microsoft/load-themed-styles/-/load-themed-styles-1.10.295.tgz#d3c8d7ab186f422727ba112d6ebe5fe8e41051d9"
   integrity sha512-W+IzEBw8a6LOOfRJM02dTT7BDZijxm+Z7lhtOAz1+y9vQm1Kdz9jlAO+qCEKsfxtUOmKilW8DIRqFw2aUgKeGg==
 
-"@modelcontextprotocol/sdk@^1.17.3", "@modelcontextprotocol/sdk@^1.8.0":
-  version "1.17.3"
-  resolved "https://registry.yarnpkg.com/@modelcontextprotocol/sdk/-/sdk-1.17.3.tgz#cf92354220f0183d28179e96a9bf3a8f6d3211ae"
-  integrity sha512-JPwUKWSsbzx+DLFznf/QZ32Qa+ptfbUlHhRLrBQBAFu9iI1iYvizM4p+zhhRDceSsPutXp4z+R/HPVphlIiclg==
-  dependencies:
-    ajv "^6.12.6"
-    content-type "^1.0.5"
-    cors "^2.8.5"
-    cross-spawn "^7.0.5"
-    eventsource "^3.0.2"
-    eventsource-parser "^3.0.0"
-    express "^5.0.1"
-    express-rate-limit "^7.5.0"
-    pkce-challenge "^5.0.0"
-    raw-body "^3.0.0"
-    zod "^3.23.8"
-    zod-to-json-schema "^3.24.1"
-
-"@modelcontextprotocol/sdk@^1.17.5":
+"@modelcontextprotocol/sdk@^1.17.3", "@modelcontextprotocol/sdk@^1.17.5", "@modelcontextprotocol/sdk@^1.8.0":
   version "1.17.5"
   resolved "https://registry.yarnpkg.com/@modelcontextprotocol/sdk/-/sdk-1.17.5.tgz#7eab1c9249532b16b7e181d9af0aec5f696c1a55"
   integrity sha512-QakrKIGniGuRVfWBdMsDea/dx1PNE739QJ7gCM41s9q+qaCYTHCdsIBXQVVXry3mfWAiaM9kT22Hyz53Uw8mfg==

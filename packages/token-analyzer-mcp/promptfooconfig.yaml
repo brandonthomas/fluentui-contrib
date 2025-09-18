@@ -47,16 +47,43 @@ defaultTest:
 
 tests:
   - vars:
-      prompt: What tools are available to you?
+      prompt: >-
+        Break down and explain each part of the token:
+        group.toolbar.status.error.loud.rest
     assert:
       - type: llm-rubric
-        value: List of available tools should include list_resources and get_resource_data.
+        value: >-
+          Correct segmentation - The response correctly splits the token into
+          its parts: group.component.proyperty.variant.style.state. If it's a
+          control token, it should be
+          ctrl.component.property.variant.style.state
+      - type: llm-rubric
+        value: >-
+          Each segment is labeled with the correct semantic role
+          (group.component is identified as the group)
+      - type: llm-rubric
+        value: >-
+          Response provides quick explanation of each segment and what it
+          represents in the design system
 
   - vars:
-      prompt: What documentation is available for tokens in Fluent?
+      prompt: >-
+        Break down and explain each part of the token:
+        group.toolbar.status.error.loud.rest
     assert:
-      - type: llm-rubric
-        value: Should include information about Fluent tokens, groups, colors, the button token group and overall guidance.
+      - type: answer-relevance
+        value: >-
+          Directness - Response directly addresses the prompt, focusing on
+          breaking down and explaining the token
+      - type: answer-relevance
+        value: >-
+          Coverage - all parts of the token that are relevant to this specific
+          case are covered, no additional segments were covered because they
+          weren't necessary in this case
+      - type: answer-relevance
+        value: >-
+          Clarity - Answer is clear and understandable, with each parts meaning
+          explained in context
 
   - vars:
       prompt: get tokens-structure://docs/token-rules.md
@@ -67,209 +94,49 @@ tests:
         value: Should retrieve the token guidance document from the MCP.
 
   - vars:
-      prompt: 'Summarize the following document: {{tokenGuidanceDocument}}'
+      prompt: Show the fallback chain for group.toolbar.status.error.loud.rest
     assert:
       - type: llm-rubric
-        value: |
-          Should provide a comprehensive summary that includes these key architectural concepts:
-          1. 4-tier hierarchy: Group → Generic → Primitive → Final Values
-          2. Critical rule: Group tokens MUST always connect to generic tokens, never directly to primitives
-          3. Mathematical foundation with Level 3 as the foundation for spatial calculations
-          4. 4-level atomic design hierarchy for consistent nesting relationships
-          5. Generic tokens as the primary interface for product teams creating custom components
-          6. Control override tokens should be used sparingly for edge cases only
-          7. Semantic naming schema with flexible segment structure
-          8. Mathematical relationships for corner radius and spacing across levels
-          The summary should not simply return the document but synthesize the key principles and rules.
+        value: >-
+          Correctness - the response accurately traces the fallback path from
+          the control token down to the primitive, all tokens should have a
+          primitive as a common token assigned. It should follow the token
+          schema rules as well.
+      - type: llm-rubric
+        value: >-
+          Completeness - all intermediate steps in the fallback chain are
+          included, no steps are skipped, unless it's irrelevant.
+      - type: llm-rubric
+        value: >-
+          Clarity - each step in the fallback chain is clearly and concisely
+          explained, with relationship between tokens defined.
+      - type: llm-rubric
+        value: >-
+          Order - fall back chain is presented in the correct order, from most
+          specific to least specific. Although sometimes a token can fall back
+          to something within the same category (like a group to a group)
 
   - vars:
-      prompt: 'Break down the token `group.button.brand.backgroundColor.hover` into its individual parts according to the naming schema in this document: {{tokenGuidanceDocument}}'
+      prompt: 'Migrate the token colorStatusSuccessForeground1 to the new token schema'
     assert:
       - type: llm-rubric
-        value: |
-          The response must correctly identify and explain ALL parts of the token `group.button.brand.backgroundColor.hover`:
-          1. Must identify "group" as the [ctrl/group] segment and explain it targets multiple components in the button group
-          2. Must identify "button" as the [component] segment and explain it's a primary interactive control component group
-          3. Must identify "brand" as the [variant] segment and explain it's a color variant that expresses brand identity and personality
-          4. Must identify "backgroundColor" as the [property] segment and explain it's the CSS property being styled
-          5. Must identify "hover" as the [state] segment and explain it's the interactive state when a pointer hovers over the element
-          6. Must explicitly state which segments are omitted in this token: [subComponent], [element], and [elementVariant]
-          7. Must not skip or combine any of these components in the explanation
-          8. Must explain that this is a complete, valid token that follows the documented naming schema
-          9. Should explain how this token would resolve through the hierarchy: group token → generic token (background.brand.hover) → primitive token (brand.loud.hover) → actual value
-
-  # Document Coverage Evaluations
-  - vars:
-      prompt: 'Based on the token guidance document, describe the architectural principles for the design token system. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
+        value: >-
+          Schema compliance - Migrated token follows the new naming structure
+          (ctrl / group.component.property.variant.style.state)
       - type: llm-rubric
-        value: |
-          The response must include these key architectural principles:
-          1. 4-tier hierarchy: Group → Generic → Primitive → Final Values
-          2. Critical rule: Group tokens MUST connect to generic tokens, never directly to primitives
-          3. Mathematical foundation: Level 3 as foundation for spatial properties
-          4. 4-level atomic design hierarchy for spacing/corner radius
-          5. Generic tokens serve as primary interface for product teams
-          6. Control override tokens should be used sparingly
-          7. Mathematical relationships: Level 4 = Level 3 + padding, Level 2 = max(0, Level 3 - padding), etc.
-          8. Semantic layer reduces decision fatigue
-
-  # Token Resolution Chain Validation
-  - vars:
-      prompt: 'According to the token guidance document, evaluate this resolution chain: group.button.brand.backgroundColor.hover → brand.loud.hover → #106EBE. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
+        value: >-
+          Semantic assignment - New token name assigns it a semantic, whether it
+          is a Generic, Group, or Control token
       - type: llm-rubric
-        value: |
-          The response must identify that this resolution chain VIOLATES the critical rule that group tokens must connect to generic tokens, never directly to primitives. The correct chain should be:
-          group.button.brand.backgroundColor.hover → background.brand.hover → brand.loud.hover → #106EBE
-          The response should explain that skipping the generic layer (background.brand.hover) breaks the architectural principle and prevents proper semantic abstraction.
-
-  - vars:
-      prompt: 'According to the token guidance document, trace the resolution chain for group.card.medium.paddingTop. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
+        value: >-
+          Clarity - Response clearly explains how each segment of the old token
+          maps to the new schema
       - type: llm-rubric
-        value: |
-          The response must show the complete resolution chain:
-          1. group.card.medium.paddingTop (Group: Component specific)
-          2. spacing.container.medium (Generic: UI semantic intent)
-          3. spacing.level4.medium (Primitive: Mathematical foundation)
-          4. 16px (Final value)
-          The response should explain that cards are Level 4 containers and use Level 4 spacing primitives.
-
-  # Invalid Token Detection
-  - vars:
-      prompt: 'According to the token guidance document, analyze these tokens: 1) group.button.brand.hover.backgroundColor 2) ctrl.button.small.large.paddingLeft 3) group.input.brand.icon.chevron.text.color.rest. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
-      - type: llm-rubric
-        value: |
-          The response must identify these issues:
-          1. group.button.brand.hover.backgroundColor - Wrong order: state should come last, correct: group.button.brand.backgroundColor.hover
-          2. ctrl.button.small.large.paddingLeft - Conflicting size variants (small and large), should be one size variant
-          3. group.input.brand.icon.chevron.text.color.rest - Too many segments, likely should be group.input.brand.icon.color.rest (chevron and text are redundant for an icon element)
-          Must reference the schema: [ctrl/group].[component].[variant].[subComponent].[element].[elementVariant].[property].[state]
-
-  # Token Creation Scenarios
-  - vars:
-      prompt: 'Using the token guidance document, construct a token for the background color of a large danger button in its pressed state. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
-      - type: llm-rubric
-        value: |
-          The response must create: group.button.danger.backgroundColor.pressed
-          Must explain each segment:
-          - group: Component family token
-          - button: The component type
-          - danger: Color variant for destructive actions
-          - backgroundColor: CSS property
-          - pressed: Interactive state
-          Must explain that size (large) is handled by separate tokens for dimensions/padding
-          Should mention resolution: group.button.danger.backgroundColor.pressed → background.danger.pressed → statusDanger.loud.pressed → final value
-
-  - vars:
-      prompt: 'Using the token guidance document, construct tokens for an icon button that contains a chevron icon. Consider styling both the button container and the chevron icon. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
-      - type: llm-rubric
-        value: |
-          The response must NOT create separate subComponent and element segments. Should create:
-          1. For button container: group.button.{variant}.backgroundColor.{state}, group.button.{size}.padding, etc.
-          2. For the chevron icon: group.button.{variant}.icon.color.{state} (icon is the element, no separate chevron subComponent needed)
-          Must explain that the chevron is just the icon element within the button, not a separate subComponent.
-          Should avoid creating both [subComponent] and [element] segments for the same visual element.
-
-  # Mathematical Relationship Validation
-  - vars:
-      prompt: 'According to the token guidance document, given Level 3 corner radius is 12px and Level 3 padding is 8px, calculate the Level 2 and Level 4 corner radius values. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
-      - type: llm-rubric
-        value: |
-          The response must show correct calculations:
-          - Level 4 = Level 3 + Level 4 padding = 12px + 16px = 28px (assuming Level 4 padding is 16px)
-          - Level 2 = max(0, Level 3 - Level 3 padding) = max(0, 12px - 8px) = 4px
-          - Level 1 = max(0, Level 2 - Level 2 padding) = max(0, 4px - 4px) = 0px (assuming Level 2 padding is 4px)
-          Must explain the mathematical foundation ensures visual harmony across nested components.
-
-  # Atomic Design Level Classification
-  - vars:
-      prompt: 'According to the token guidance document, classify these components by atomic design level: Badge, Card, Toggle Switch, Avatar, Dialog, Text Input. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
-      - type: llm-rubric
-        value: |
-          The response must correctly classify:
-          - Level 1: Avatar (content holder) - uses Level 1 tokens
-          - Level 2: Badge, Toggle Switch (small interactive) - uses Level 2 tokens
-          - Level 3: Text Input (primary control, form-aligned) - uses Level 3 tokens
-          - Level 4: Card, Dialog (containers, multi-element surfaces) - uses Level 4 tokens
-          Must explain the reasoning based on component purpose and nesting behavior.
-
-  # Custom Component Implementation
-  - vars:
-      prompt: 'According to the token guidance document, describe how a product team should approach creating tokens for a custom notification banner component. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
-      - type: llm-rubric
-        value: |
-          The response must recommend using generic tokens like:
-          - background.{warning|info|danger}.rest for banner background
-          - foreground.onStatus.rest for text color
-          - spacing.container.medium for padding
-          - cornerRadius.container.small for border radius
-          Must explain that product teams should use generics because:
-          1. Generics are the primary interface for product teams
-          2. Group tokens are for component families, not individual custom components
-          3. Generics provide semantic abstraction without component-specific assumptions
-
-  # Legacy Token Migration
-  - vars:
-      prompt: 'According to the token guidance document, describe how to convert this legacy token to the new system: colorBrandBackgroundPressed. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
-      - type: llm-rubric
-        value: |
-          The response should suggest this is likely a generic token that would become:
-          background.brand.pressed
-          Must explain the conversion process:
-          1. Identify the semantic intent (background color, brand variant, pressed state)
-          2. Map to new generic structure: [purpose].[variant].[state]
-          3. Remove redundant "color" prefix since the purpose implies color
-          4. Follow the new semantic naming conventions
-          Should note that if this was used in a specific component, it might need a group token instead.
-
-  # Fallback and Error Scenarios
-  - vars:
-      prompt: 'According to the token guidance document, describe what happens when group.button.warning.backgroundColor.hover is not defined. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
-      - type: llm-rubric
-        value: |
-          The response should explain a logical fallback strategy:
-          1. Try the rest state: group.button.warning.backgroundColor.rest
-          2. Fall back to generic: background.warning.hover (or background.warning.rest)
-          3. Eventually fall back to primitive: statusWarning.loud.hover
-          4. Must maintain semantic meaning and avoid breaking the token hierarchy
-          Should emphasize that fallbacks should still respect the group → generic → primitive chain.
-
-  # Complex Token Scenarios
-  - vars:
-      prompt: 'According to the token guidance document, construct tokens for a dropdown menu within a button, including the button background, dropdown container, and menu items. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
-      - type: llm-rubric
-        value: |
-          The response must create appropriate tokens:
-          1. Button: group.button.{variant}.backgroundColor.{state}
-          2. Dropdown container: group.button.{variant}.dropdown.backgroundColor.rest (subComponent = dropdown)
-          3. Menu items: group.button.{variant}.dropdown.menuItem.backgroundColor.{hover|selected} (element = menuItem)
-          Must explain the hierarchy: button (component) → dropdown (subComponent) → menuItem (element)
-          Should explain how this follows the schema: [group].[component].[variant].[subComponent].[element].[property].[state]
-
-  # Performance and Consistency Validation
-  - vars:
-      prompt: 'According to the token guidance document, describe the implications of having many control override tokens. Reference this document: {{tokenGuidanceDocument}}'
-    assert:
-      - type: llm-rubric
-        value: |
-          The response must explain the problems:
-          1. Too many control tokens indicate missing group tokens
-          2. Breaks consistency across similar components
-          3. Increases maintenance burden
-          4. Defeats the purpose of systematic design
-          Must suggest solutions:
-          1. Refactor common patterns into group tokens
-          2. Use control tokens only for true edge cases
-          3. Document reasoning for any control overrides
-          4. Regularly audit and consolidate control tokens into groups when patterns emerge
+        value: >-
+          Fallback reference - Response shows how the migrated token fits into
+          the fallback chain
+      - type: context-relevance
+        value: >-
+          Context - knows how to assign the the token schema based on resource
+          list provided on new groups, token structure, and relevant
+          documentation
