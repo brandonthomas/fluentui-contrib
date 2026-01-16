@@ -111,8 +111,7 @@ tests:
           4. 4-level atomic design hierarchy for spacing/corner radius
           5. Generic tokens serve as primary interface for product teams
           6. Control override tokens should be used sparingly
-          7. Mathematical relationships: Level 4 = Level 3 + padding, Level 2 = max(0, Level 3 - padding), etc.
-          8. Semantic layer reduces decision fatigue
+          7. Semantic layer reduces decision fatigue
 
   # Token Resolution Chain Validation
   - vars:
